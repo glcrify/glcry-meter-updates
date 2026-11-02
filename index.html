@@ -1,0 +1,445 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<link rel="icon" href="icon.png">
+<title>GLCRY METER Beta</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<meta name="description" content="Apply to the GLCRY METER beta by Glcrify: a shot meter reader for our community NBA 2K21 servers.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@600;800;900&family=Figtree:wght@400;500;600&family=JetBrains+Mono:wght@500&display=swap">
+<style>
+/* Layout: arena scoreboard. A full-width meter hero, then a narrow reading column with one pricing "ticket". */
+:root {
+  --bg: #f3efe6;          /* hardwood-paper */
+  --bg-2: #e8e1d2;
+  --ink: #18202c;
+  --muted: #5d6573;
+  --line: #d6cdbb;
+  --gold: #b9860f;        /* meter line */
+  --khaki: #b5a26a;       /* meter zone */
+  --green: #1f9d55;       /* EXCELLENT */
+  --card: #fbf8f1;
+  --meter-body: #2b313b;
+  --meter-rim: #c9ccd2;
+  --display: "Big Shoulders Display", "Arial Narrow", Impact, sans-serif;
+  --body: "Figtree", "Segoe UI", system-ui, sans-serif;
+  --mono: "JetBrains Mono", ui-monospace, Consolas, monospace;
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+  --bg: #0f141c; --bg-2: #151c27; --ink: #e9ecf1; --muted: #9aa3b2; --line: #263041;
+  --gold: #f0b83a; --khaki: #c8b67a; --green: #3fd17f; --card: #161e2a;
+  --meter-body: #05070a; --meter-rim: #aeb4be; color-scheme: dark; } }
+:root[data-theme="dark"] {
+  --bg: #0f141c; --bg-2: #151c27; --ink: #e9ecf1; --muted: #9aa3b2; --line: #263041;
+  --gold: #f0b83a; --khaki: #c8b67a; --green: #3fd17f; --card: #161e2a;
+  --meter-body: #05070a; --meter-rim: #aeb4be; color-scheme: dark; }
+
+* { box-sizing: border-box; }
+body { background: var(--bg); color: var(--ink); font: 16px/1.6 var(--body); }
+a { color: inherit; }
+.wrap { max-width: 1080px; margin: 0 auto; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
+.col { max-width: 680px; }
+h1, h2, h3 { font-family: var(--display); line-height: 1; text-wrap: balance; margin: 0; }
+h2 { font-size: clamp(2rem, 5vw, 2.9rem); font-weight: 800; text-transform: uppercase; letter-spacing: .01em; }
+h3 { font-size: 1.35rem; font-weight: 800; text-transform: uppercase; letter-spacing: .02em; }
+p { margin: 0; }
+.eyebrow { font: 500 .75rem/1 var(--mono); letter-spacing: .14em; text-transform: uppercase; color: var(--muted); }
+.mono { font-family: var(--mono); font-variant-numeric: tabular-nums; }
+
+/* top bar */
+.bar { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding-block: 18px; }
+.brand { font: 900 1.5rem/1 var(--display); letter-spacing: .04em; text-transform: uppercase; text-decoration: none; }
+.brand span { color: var(--gold); }
+.nav { display: flex; gap: 18px; font-size: .92rem; }
+.nav a { text-decoration: none; color: var(--muted); }
+.nav a:hover, .nav a:focus-visible { color: var(--ink); }
+
+/* hero */
+.hero { display: grid; grid-template-columns: 1.05fr 1fr; gap: 40px; align-items: center; padding-block: 36px 56px; }
+.hero h1 { font-size: clamp(3rem, 8.5vw, 6rem); font-weight: 900; text-transform: uppercase; letter-spacing: -.005em; }
+.hero h1 em { font-style: normal; color: var(--green); }
+.hero .lede { margin-top: 18px; font-size: 1.12rem; color: var(--muted); max-width: 30em; }
+.cta-row { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; margin-top: 26px; }
+.btn { display: inline-flex; align-items: center; gap: 10px; border: 0; cursor: pointer; text-decoration: none;
+  font: 800 1.15rem/1 var(--display); letter-spacing: .06em; text-transform: uppercase; padding: 16px 26px;
+  border-radius: 4px; background: var(--ink); color: var(--bg); }
+.btn:hover { transform: translateY(-1px); }
+.btn:focus-visible, .nav a:focus-visible, summary:focus-visible { outline: 3px solid var(--gold); outline-offset: 3px; }
+.btn.ghost { background: transparent; color: var(--ink); box-shadow: inset 0 0 0 2px var(--line); }
+.btn[aria-disabled="true"] { opacity: .55; cursor: default; transform: none; }
+.small { font-size: .85rem; color: var(--muted); }
+
+.meter-stage { background: var(--bg-2); border: 1px solid var(--line); border-radius: 6px; padding: 26px 18px 18px; }
+.meter-stage svg { width: 100%; height: auto; display: block; }
+.readout { display: flex; justify-content: space-between; gap: 10px; flex-wrap: wrap; margin-top: 10px; font: 500 .8rem/1.4 var(--mono); color: var(--muted); }
+.verdict { font: 900 1.6rem/1 var(--display); letter-spacing: .06em; text-transform: uppercase; color: var(--green); text-align: center; margin-top: 4px; min-height: 1.6rem; }
+
+/* stats strip */
+.strip { border-block: 1px solid var(--line); }
+.strip .wrap { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0; }
+.stat { padding-block: 22px; padding-right: 16px; }
+.stat b { display: block; font: 900 2.3rem/1 var(--display); }
+.stat span { font-size: .88rem; color: var(--muted); }
+
+section { padding-block: 64px; }
+.sec-head { display: grid; gap: 12px; margin-bottom: 30px; }
+
+.grid2 { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 28px 40px; }
+.feat h3 { margin-bottom: 6px; }
+.feat p { color: var(--muted); }
+
+.steps { list-style: none; margin: 0; padding: 0; display: grid; gap: 0; counter-reset: s; }
+.steps li { display: grid; grid-template-columns: 64px minmax(0, 1fr); gap: 16px; padding-block: 18px; border-top: 1px solid var(--line); counter-increment: s; }
+.steps li::before { content: counter(s, decimal-leading-zero); font: 900 2.2rem/1 var(--display); color: var(--gold); }
+.steps p { color: var(--muted); }
+.steps strong { color: var(--ink); display: block; font-weight: 600; }
+
+.req { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px 32px; padding: 0; margin: 0; list-style: none; }
+.req li { padding-left: 22px; position: relative; }
+.req li::before { content: ""; position: absolute; left: 0; top: .62em; width: 10px; height: 4px; border-radius: 2px; background: var(--khaki); }
+
+/* ticket */
+.ticket { display: grid; grid-template-columns: 1fr auto; gap: 24px; align-items: center; background: var(--card);
+  border: 1px solid var(--line); border-radius: 6px; padding: 28px; position: relative; }
+.ticket::after { content: ""; position: absolute; top: 18px; bottom: 18px; right: 230px; border-right: 2px dashed var(--line); }
+.price { font: 900 4.2rem/1 var(--display); }
+.price small { font: 600 1.05rem var(--body); color: var(--muted); margin-left: 4px; }
+.ticket ul { margin: 14px 0 0; padding-left: 18px; color: var(--muted); }
+.ticket .side { width: 200px; display: grid; gap: 10px; justify-items: stretch; text-align: center; }
+.notice { margin-top: 14px; font-size: .85rem; color: var(--muted); }
+
+details { border-top: 1px solid var(--line); padding-block: 16px; }
+details:last-child { border-bottom: 1px solid var(--line); }
+summary { cursor: pointer; font-weight: 600; list-style: none; display: flex; justify-content: space-between; gap: 16px; }
+summary::after { content: "+"; font-family: var(--mono); color: var(--muted); }
+details[open] summary::after { content: "\2212"; }
+details p { margin-top: 10px; color: var(--muted); }
+
+.legal h3 { margin-top: 30px; margin-bottom: 8px; }
+.legal p, .legal li { color: var(--muted); }
+.legal ul { padding-left: 20px; }
+
+footer { border-top: 1px solid var(--line); padding-block: 28px 40px; color: var(--muted); font-size: .88rem; }
+footer .wrap { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 12px; }
+
+.view[hidden] { display: none !important; }
+.thanks { padding-block: 70px; }
+.thanks .steps li::before { color: var(--green); }
+
+@media (max-width: 820px) {
+  .hero { grid-template-columns: 1fr; padding-block: 20px 40px; }
+  .strip .wrap { grid-template-columns: repeat(2, 1fr); }
+  .grid2, .req { grid-template-columns: 1fr; }
+  .ticket { grid-template-columns: 1fr; }
+  .ticket::after { display: none; }
+  .ticket .side { width: auto; }
+  .nav { display: none; }
+}
+@media (prefers-reduced-motion: reduce) { .btn:hover { transform: none; } }
+</style>
+<style>:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)} body{margin:0} img{max-width:100%} [hidden]{display:none!important}</style>
+</head>
+<body>
+
+
+<div class="wrap">
+  <header class="bar">
+    <a class="brand" href="#top">GLCRY<span>&nbsp;METER</span></a>
+    <nav class="nav" aria-label="Sections">
+      <a href="#what">What you get</a>
+      <a href="#how">How it works</a>
+      <a href="#price">Price</a>
+      <a href="#faq">FAQ</a>
+      <a href="https://discord.gg/glcrify" target="_blank" rel="noopener">Discord</a>
+      <a href="https://www.tiktok.com/@glcrify" target="_blank" rel="noopener">TikTok</a>
+    </nav>
+  </header>
+</div>
+
+<!-- ============ MAIN VIEW ============ -->
+<main id="view-main" class="view">
+  <div class="wrap">
+    <div class="hero" id="top">
+      <div>
+        <p class="eyebrow">By Glcrify &middot; closed beta &middot; limited seats</p>
+        <h1>Release on the <em>green.</em></h1>
+        <p class="lede">GLCRY METER reads the shot meter 240 times a second and lets go for you in the middle of the window. It's built for our community NBA 2K21 servers, and we're taking a small group of testers.</p>
+        <div class="cta-row">
+          <a class="btn apply" href="#price">Apply for the beta</a>
+          <a class="btn ghost" href="#how">How it works</a>
+        </div>
+        <p class="small" style="margin-top:12px">US$36 a month. Cancel any time.</p>
+      </div>
+      <div class="meter-stage" aria-label="Animated example of the shot meter: the line sweeps into the target zone and the release is graded Excellent">
+        <svg viewBox="0 0 420 118" role="img" aria-hidden="true">
+          <path id="rim" fill="none" stroke="var(--meter-rim)" stroke-linecap="round" stroke-width="36" d=""/>
+          <path id="body" fill="none" stroke="var(--meter-body)" stroke-linecap="round" stroke-width="26" d=""/>
+          <path id="zone" fill="none" stroke="var(--khaki)" stroke-width="26" d=""/>
+          <line id="target" stroke="var(--green)" stroke-width="3" x1="0" y1="0" x2="0" y2="0"/>
+          <line id="gold" stroke="var(--gold)" stroke-width="5" stroke-linecap="round" x1="0" y1="0" x2="0" y2="0"/>
+        </svg>
+        <div class="verdict" id="verdict">EXCELLENT</div>
+        <div class="readout"><span id="ro-eta">ETA 0 ms</span><span id="ro-err">release error +2 ms</span><span>240 fps</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="strip">
+    <div class="wrap">
+      <div class="stat"><b class="mono">240</b><span>meter reads per second</span></div>
+      <div class="stat"><b class="mono">&plusmn;3 ms</b><span>release spread in our testing</span></div>
+      <div class="stat"><b>Auto</b><span>tunes itself from 2K's TIMING result</span></div>
+      <div class="stat"><b>2 ways</b><span>to connect: virtual controller or Titan Two</span></div>
+    </div>
+  </div>
+
+  <section id="what">
+    <div class="wrap">
+      <div class="sec-head col">
+        <p class="eyebrow">What testers get</p>
+        <h2>Everything set up for you</h2>
+      </div>
+      <div class="grid2">
+        <div class="feat"><h3>One-click installer</h3><p>Download one file, double-click it, and everything GLCRY METER needs is installed for you, drivers included. No setup guides.</p></div>
+        <div class="feat"><h3>Times the middle of the window</h3><p>It aims at the centre of the meter's target zone, where 2K grades a release EXCELLENT, and keeps itself tuned from 2K's own TIMING verdict.</p></div>
+        <div class="feat"><h3>Plays with your controller</h3><p>Plug your controller into your PC, or use your Titan Two. GLCRY METER finds it and only takes over the moment of release.</p></div>
+        <div class="feat"><h3>Updates arrive by themselves</h3><p>Every fix and improvement installs the next time you open GLCRY METER. Testers get new builds first.</p></div>
+        <div class="feat"><h3>Your own key</h3><p>Your access is locked to your PC, so a leaked copy is useless to anyone else and your seat stays yours.</p></div>
+        <div class="feat"><h3>A direct line to us</h3><p>Testers get a private Discord channel to report bugs and shape what we build next.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="how" style="background:var(--bg-2)">
+    <div class="wrap">
+      <div class="sec-head col">
+        <p class="eyebrow">How it works</p>
+        <h2>From payment to playing</h2>
+      </div>
+      <ol class="steps col">
+        <li><p><strong>Apply and subscribe</strong>Checkout takes your payment and your Discord name. Seats are limited so we can support everyone properly.</p></li>
+        <li><p><strong>Join the Discord</strong>We add you to the testers channel and send you the GLCRY METER installer.</p></li>
+        <li><p><strong>Install and send your PC ID</strong>Run the installer. GLCRY METER shows your PC ID. Send it to us and we'll send your key back.</p></li>
+        <li><p><strong>Play</strong>Open OBS, start the Virtual Camera, open GLCRY METER and get on the court.</p></li>
+      </ol>
+      <div class="col" style="margin-top:40px">
+        <h3 style="margin-bottom:14px">You'll need</h3>
+        <ul class="req">
+          <li>A Windows 10 or 11 PC</li>
+          <li>NBA 2K21 on PC, on our community servers</li>
+          <li>OBS Studio (free) with Virtual Camera</li>
+          <li>A controller, or a Titan Two</li>
+          <li>Ideally a 120-240 fps capture</li>
+          <li>Discord, for your key and support</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section id="price">
+    <div class="wrap">
+      <div class="sec-head col">
+        <p class="eyebrow">Beta tester seat</p>
+        <h2>One plan. Cancel any time.</h2>
+      </div>
+      <div class="ticket">
+        <div>
+          <div class="price mono">$36<small>USD / month</small></div>
+          <ul>
+            <li>GLCRY METER for one PC, with every update</li>
+            <li>Virtual controller and Titan Two support</li>
+            <li>Private testers channel on Discord</li>
+            <li>Billed monthly by Stripe. Cancel from your receipt email.</li>
+          </ul>
+        </div>
+        <div class="side">
+          <a class="btn apply" id="apply-main" href="#price">Apply now</a>
+          <span class="small">Secure checkout by Stripe</span>
+        </div>
+      </div>
+      <p class="notice" id="closed-note" hidden>Applications open shortly. Join <a href="https://discord.gg/glcrify" target="_blank" rel="noopener">discord.gg/glcrify</a> to hear first.</p>
+      <p class="notice">The fee keeps the waiting list to people who'll actually test. If we can't get GLCRY METER working on your PC, we'll refund your first month.</p>
+    </div>
+  </section>
+
+  <section id="faq" style="padding-top:0">
+    <div class="wrap col">
+      <div class="sec-head">
+        <p class="eyebrow">Questions</p>
+        <h2>FAQ</h2>
+      </div>
+      <details><summary>Will every shot be EXCELLENT?</summary><p>No tool can promise that. The game reads your controller once per frame and online play adds delay. GLCRY METER releases within a few milliseconds of the middle of the window and corrects itself from 2K's TIMING result, so most of your shots land in the window.</p></details>
+      <details><summary>Which games and modes does it work with?</summary><p>NBA 2K21 on PC, on our community servers. It handles offline modes and online modes like Ante-Up. Online play needs more lead time because of server delay, and GLCRY METER re-tunes itself from 2K's TIMING result after a few shots.</p></details>
+      <details><summary>How do I cancel?</summary><p>Use the "Manage subscription" link in your Stripe receipt email. You keep access until the end of the month you've paid for.</p></details>
+      <details><summary>Can I use it on two PCs?</summary><p>Each seat is one PC. If you change PCs, message us on Discord and we'll move your key.</p></details>
+      <details><summary>What if it doesn't work on my PC?</summary><p>Message us on Discord first. Most problems are a quick settings fix. If we can't get it running, we refund your first month.</p></details>
+      <details><summary>Where can I see it in action?</summary><p>Clips go up on TikTok at <a href="https://www.tiktok.com/@glcrify" target="_blank" rel="noopener">@glcrify</a>, and the community is on <a href="https://discord.gg/glcrify" target="_blank" rel="noopener">discord.gg/glcrify</a>.</p></details>
+      <details><summary>What do you do with my details?</summary><p>See <a href="#terms">Terms &amp; privacy</a>. In short: your Discord name and email let us support you, and your PC ID locks your key. We never sell your data.</p></details>
+    </div>
+  </section>
+</main>
+
+<!-- ============ THANK-YOU VIEW (Stripe sends people here after paying) ============ -->
+<main id="view-thanks" class="view thanks" hidden>
+  <div class="wrap col">
+    <p class="eyebrow">Payment received</p>
+    <h2 style="font-size:clamp(2.6rem,7vw,4.4rem)">You're in.</h2>
+    <p style="margin-top:14px;color:var(--muted)">Thanks for joining the GLCRY METER beta. Here's what happens next. Stripe has also emailed you a receipt.</p>
+    <ol class="steps" style="margin-top:28px">
+      <li><p><strong>Join our Discord</strong><span id="discord-line">Use the invite link in your receipt email.</span></p></li>
+      <li><p><strong>Get the installer</strong>We'll send it to you in the testers channel.</p></li>
+      <li><p><strong>Send us your PC ID</strong>Install GLCRY METER, copy the PC ID it shows, and send it to us. Your key comes back, usually within a few hours.</p></li>
+    </ol>
+    <p style="margin-top:28px"><a class="btn ghost" href="#top">Back to the site</a></p>
+  </div>
+</main>
+
+<!-- ============ TERMS VIEW ============ -->
+<main id="view-terms" class="view" hidden>
+  <div class="wrap col legal" style="padding-block:50px 70px">
+    <p class="eyebrow">Last updated <span class="mono">2 November 2026</span></p>
+    <h2>Terms &amp; privacy</h2>
+
+    <h3>The service</h3>
+    <p>GLCRY METER is beta software for our community-run NBA 2K21 servers. A beta tester subscription gives you a licence key for GLCRY METER on one PC, updates, and support while your subscription is active. GLCRY METER isn't made by or connected with 2K or the NBA.</p>
+
+    <h3>Billing</h3>
+    <ul>
+      <li>US$36 per month, charged in advance by Stripe on the same day each month.</li>
+      <li>You can cancel any time from the link in your receipt email. Access continues until the end of the paid month.</li>
+      <li>We may change the price with 30 days' notice. Any change applies from your next billing date.</li>
+    </ul>
+
+    <h3>Refunds</h3>
+    <p>If we can't get GLCRY METER working on your PC, we refund your first month. Contact us within 7 days of subscribing. Other refunds are at our discretion.</p>
+
+    <h3>Your key</h3>
+    <ul>
+      <li>Each key works on one PC. Don't share it, resell it or try to get around it.</li>
+      <li>We may cancel a key that's been shared or misused, without a refund.</li>
+      <li>Beta software can have bugs. It's provided as-is and may change or stop working at any time.</li>
+    </ul>
+
+    <h3>Fair use</h3>
+    <p>Use GLCRY METER only where it's allowed: on our community servers and in line with their rules. You're responsible for how you use it.</p>
+
+    <h3>Privacy</h3>
+    <ul>
+      <li><strong>What we collect:</strong> your email and payment details (handled by Stripe; we never see your card number), your Discord name, and your GLCRY METER PC ID.</li>
+      <li><strong>Why:</strong> to bill you, send you your key, support you and stop key sharing.</li>
+      <li>We don't sell or share your data, except with Stripe to take payments.</li>
+      <li>To have your details deleted, message us. Stripe keeps payment records as the law requires.</li>
+    </ul>
+
+    <h3>Contact</h3>
+    <p>Discord: <span class="mono" id="contact-discord">see your receipt email</span><br>Email: <span class="mono" id="contact-email">set in site settings</span></p>
+    <p style="margin-top:30px"><a class="btn ghost" href="#top">Back to the site</a></p>
+  </div>
+</main>
+
+<footer>
+  <div class="wrap">
+    <span>&copy; <span class="mono">2026</span> GLCRY METER by Glcrify. Not affiliated with 2K or the NBA.</span>
+    <span><a href="https://discord.gg/glcrify" target="_blank" rel="noopener">discord.gg/glcrify</a> &middot; <a href="https://www.tiktok.com/@glcrify" target="_blank" rel="noopener">TikTok @glcrify</a> &middot; <a href="#terms">Terms &amp; privacy</a></span>
+  </div>
+</footer>
+
+<script>
+/* ================= SITE SETTINGS - fill these in ================= */
+var SETTINGS = {
+  stripeLink: "https://buy.stripe.com/5kQcN5c2m9718OT1mV4ZG00",
+  discordInvite: "https://discord.gg/glcrify",
+  contactEmail: ""         // e.g. "support@yourdomain.com"
+};
+/* ================================================================= */
+
+(function () {
+  // Apply buttons -> Stripe, or a clear "opening soon" state
+  var applies = document.querySelectorAll(".apply");
+  applies.forEach(function (a) {
+    if (SETTINGS.stripeLink) {
+      a.href = SETTINGS.stripeLink;
+      a.target = "_blank";
+      a.rel = "noopener";
+    } else if (a.id === "apply-main") {
+      a.setAttribute("aria-disabled", "true");
+      a.textContent = "Opening soon";
+      a.addEventListener("click", function (e) { e.preventDefault(); });
+      document.getElementById("closed-note").hidden = false;
+    }
+  });
+  if (SETTINGS.discordInvite) {
+    var dl = document.getElementById("discord-line");
+    dl.innerHTML = "";
+    var link = document.createElement("a");
+    link.href = SETTINGS.discordInvite; link.target = "_blank"; link.rel = "noopener";
+    link.textContent = SETTINGS.discordInvite;
+    dl.appendChild(document.createTextNode("Join here: ")); dl.appendChild(link);
+    document.getElementById("contact-discord").textContent = SETTINGS.discordInvite;
+  }
+  if (SETTINGS.contactEmail) document.getElementById("contact-email").textContent = SETTINGS.contactEmail;
+
+  // Views: #thanks and #terms, everything else is the main page
+  function route() {
+    var h = (location.hash || "").slice(1);
+    var view = (h === "thanks" || h === "terms") ? h : "main";
+    ["main", "thanks", "terms"].forEach(function (v) {
+      document.getElementById("view-" + v).hidden = v !== view;
+    });
+    if (view !== "main") window.scrollTo(0, 0);
+    else if (h && document.getElementById(h)) document.getElementById(h).scrollIntoView();
+  }
+  window.addEventListener("hashchange", route);
+  route();
+
+  // ---------- the meter ----------
+  var cx = 210, cy = 560, R = 520;          // a shallow upward arch
+  var a0 = -0.36, a1 = 0.36;                // arc span (radians from vertical)
+  function pt(t, r) {                       // t: 0..1 along the bar
+    var a = a0 + (a1 - a0) * t;
+    return [cx + (r || R) * Math.sin(a), cy - (r || R) * Math.cos(a)];
+  }
+  function arc(t0, t1) {
+    var p = pt(t0), q = pt(t1);
+    return "M" + p[0].toFixed(1) + " " + p[1].toFixed(1) + " A" + R + " " + R + " 0 0 1 " + q[0].toFixed(1) + " " + q[1].toFixed(1);
+  }
+  var Z0 = 0.66, Z1 = 0.82, ZC = (Z0 + Z1) / 2;
+  document.getElementById("rim").setAttribute("d", arc(0, 1));
+  document.getElementById("body").setAttribute("d", arc(0, 1));
+  document.getElementById("zone").setAttribute("d", arc(Z0, Z1));
+  function tick(id, t, len) {
+    var a = pt(t, R - len), b = pt(t, R + len), el = document.getElementById(id);
+    el.setAttribute("x1", a[0]); el.setAttribute("y1", a[1]); el.setAttribute("x2", b[0]); el.setAttribute("y2", b[1]);
+  }
+  tick("target", ZC, 24);
+  var verdict = document.getElementById("verdict"), eta = document.getElementById("ro-eta"), err = document.getElementById("ro-err");
+  var FILL_MS = 900;                        // time for the line to cross the bar
+  function show(t, done) {
+    tick("gold", t, 16);
+    var ms = Math.round((ZC - t) * FILL_MS);
+    eta.textContent = "ETA " + Math.max(0, ms) + " ms";
+    verdict.style.visibility = done ? "visible" : "hidden";
+  }
+  var reduce = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  if (reduce) { show(ZC + 0.002, true); return; }
+  var start = null, stopAt = ZC + 0.002, hold = 1400;
+  function frame(ts) {
+    if (start === null) start = ts;
+    var el = ts - start, t = el / FILL_MS;
+    if (t < stopAt) { show(t, false); }
+    else {
+      show(stopAt, true);
+      err.textContent = "release error +" + Math.round((stopAt - ZC) * FILL_MS) + " ms";
+      if (el > stopAt * FILL_MS + hold) { start = ts; stopAt = ZC + (Math.random() * 0.012 - 0.004); }
+    }
+    requestAnimationFrame(frame);
+  }
+  show(stopAt, true);                        // complete at rest before animating
+  requestAnimationFrame(frame);
+})();
+</script>
+
+</body>
+</html>
