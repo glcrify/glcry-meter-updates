@@ -127,6 +127,22 @@ footer .wrap { display: flex; flex-wrap: wrap; justify-content: space-between; g
 .view[hidden] { display: none !important; }
 .thanks { padding-block: 70px; }
 .thanks .steps li::before { color: var(--green); }
+.keycard { margin-top: 30px; background: var(--card); border: 2px solid var(--line); border-radius: 18px; padding: 22px; position: relative; overflow: hidden; }
+.keycard::before { content: ""; position: absolute; inset: 0 auto 0 0; width: 6px; background: var(--gold); }
+.keycard .eyebrow { margin-bottom: 10px; }
+.keyval { font: 500 clamp(.78rem, 2.4vw, 1rem)/1.5 var(--mono); word-break: break-all; background: var(--bg); border: 1px solid var(--line); border-radius: 10px; padding: 14px; user-select: all; }
+.keyrow { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 14px; }
+.keycard .small { display: block; margin-top: 12px; color: var(--muted); font-size: .85rem; }
+.keycard.loading .keyval { color: var(--muted); }
+.keycard.err { border-color: #d9534f; }
+.keycard.err::before { background: #d9534f; }
+.keycard.err .keyval, .keycard.loading .keyval { font: 500 1rem/1.5 var(--body); word-break: normal; user-select: text; }
+.guide { margin-top: 44px; }
+.guide .steps li { padding-block: 22px; }
+.guide kbd { font: 500 .85em var(--mono); background: var(--bg-2); border: 1px solid var(--line); border-bottom-width: 2px; border-radius: 6px; padding: 1px 6px; color: var(--ink); }
+.guide .shot { display: block; margin-top: 10px; padding: 10px 12px; border-left: 3px solid var(--gold); background: var(--bg-2); border-radius: 0 8px 8px 0; font-size: .9rem; color: var(--muted); }
+.toast { position: fixed; left: 50%; bottom: 24px; transform: translateX(-50%) translateY(20px); background: var(--ink); color: var(--bg); padding: 10px 18px; border-radius: 999px; font-weight: 600; opacity: 0; transition: .2s; pointer-events: none; }
+.toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
 
 @media (max-width: 820px) {
   .hero { grid-template-columns: 1fr; padding-block: 20px 40px; }
@@ -203,7 +219,7 @@ footer .wrap { display: flex; flex-wrap: wrap; justify-content: space-between; g
       </div>
       <div class="grid2">
         <div class="feat"><h3>One-click installer</h3><p>Download one file, double-click it, and everything GLCRY METER needs is installed for you, drivers included. No setup guides.</p></div>
-        <div class="feat"><h3>Times the middle of the window</h3><p>It aims at the centre of the meter's target zone, where 2K grades a release EXCELLENT, and keeps itself tuned from 2K's own TIMING verdict.</p></div>
+        <div class="feat"><h3>Times the middle of the window</h3><p>It aims at the centre of the meter's target zone, where 2K grades a release EXCELLENT. You set your timing once and it stays exactly where you put it.</p></div>
         <div class="feat"><h3>Plays with your controller</h3><p>Plug your controller into your PC, or use your Titan Two. GLCRY METER finds it and only takes over the moment of release.</p></div>
         <div class="feat"><h3>Updates arrive by themselves</h3><p>Every fix and improvement installs the next time you open GLCRY METER. Testers get new builds first.</p></div>
         <div class="feat"><h3>Your own key</h3><p>Your access is locked to your PC, so a leaked copy is useless to anyone else and your seat stays yours.</p></div>
@@ -220,8 +236,8 @@ footer .wrap { display: flex; flex-wrap: wrap; justify-content: space-between; g
       </div>
       <ol class="steps col">
         <li><p><strong>Apply and subscribe</strong>Checkout takes your payment and your Discord name. Seats are limited so we can support everyone properly.</p></li>
-        <li><p><strong>Join the Discord</strong>We add you to the testers channel and send you the GLCRY METER installer.</p></li>
-        <li><p><strong>Install and send your PC ID</strong>Run the installer. GLCRY METER shows your PC ID. Send it to us and we'll send your key back.</p></li>
+        <li><p><strong>Get your key instantly</strong>Straight after checkout you get your key, the download and a step-by-step setup guide. No waiting on anyone.</p></li>
+        <li><p><strong>Install and paste your key</strong>Run the installer, paste your key, and it locks to your PC.</p></li>
         <li><p><strong>Play</strong>Open OBS, start the Virtual Camera, open GLCRY METER and get on the court.</p></li>
       </ol>
       <div class="col" style="margin-top:40px">
@@ -232,7 +248,7 @@ footer .wrap { display: flex; flex-wrap: wrap; justify-content: space-between; g
           <li>OBS Studio (free) with Virtual Camera</li>
           <li>A controller, or a Titan Two</li>
           <li>Ideally a 120-240 fps capture</li>
-          <li>Discord, for your key and support</li>
+          <li>Discord, for support and updates</li>
         </ul>
       </div>
     </div>
@@ -270,13 +286,13 @@ footer .wrap { display: flex; flex-wrap: wrap; justify-content: space-between; g
         <p class="eyebrow">Questions</p>
         <h2>FAQ</h2>
       </div>
-      <details><summary>Will every shot be EXCELLENT?</summary><p>No tool can promise that. The game reads your controller once per frame and online play adds delay. GLCRY METER releases within a few milliseconds of the middle of the window and corrects itself from 2K's TIMING result, so most of your shots land in the window.</p></details>
-      <details><summary>Which games and modes does it work with?</summary><p>NBA 2K21 on PC, on our community servers. It handles offline modes and online modes like Ante-Up. Online play needs more lead time because of server delay, and GLCRY METER re-tunes itself from 2K's TIMING result after a few shots.</p></details>
+      <details><summary>Will every shot be EXCELLENT?</summary><p>No tool can promise that. The game reads your controller once per frame and online play adds delay. GLCRY METER releases within a few milliseconds of the middle of the window, so once your timing is set, most of your shots land in it.</p></details>
+      <details><summary>Which games and modes does it work with?</summary><p>NBA 2K21 on PC, on our community servers. It handles offline modes and online modes like Ante-Up. Online play needs more lead time because of server delay; adjust it in Shot settings, or switch on automatic timing and it adjusts after each shot.</p></details>
       <details><summary>How do I cancel?</summary><p>Use the "Manage subscription" link in your Stripe receipt email. You keep access until the end of the month you've paid for.</p></details>
       <details><summary>Can I use it on two PCs?</summary><p>Each seat is one PC. If you change PCs, message us on Discord and we'll move your key.</p></details>
       <details><summary>What if it doesn't work on my PC?</summary><p>Message us on Discord first. Most problems are a quick settings fix. If we can't get it running, we refund your first month.</p></details>
       <details><summary>Where can I see it in action?</summary><p>Clips go up on TikTok at <a href="https://www.tiktok.com/@glcrify" target="_blank" rel="noopener">@glcrify</a>, and the community is on <a href="https://discord.gg/glcrify" target="_blank" rel="noopener">discord.gg/glcrify</a>.</p></details>
-      <details><summary>What do you do with my details?</summary><p>See <a href="#terms">Terms &amp; privacy</a>. In short: your Discord name and email let us support you, and your PC ID locks your key. We never sell your data.</p></details>
+      <details><summary>What do you do with my details?</summary><p>See <a href="#terms">Terms &amp; privacy</a>. In short: your Discord name and email let us support you, and your PC's ID locks your key to it. We never sell your data.</p></details>
     </div>
   </section>
 </main>
@@ -286,15 +302,42 @@ footer .wrap { display: flex; flex-wrap: wrap; justify-content: space-between; g
   <div class="wrap col">
     <p class="eyebrow">Payment received</p>
     <h2 style="font-size:clamp(2.6rem,7vw,4.4rem)">You're in.</h2>
-    <p style="margin-top:14px;color:var(--muted)">Thanks for joining the GLCRY METER beta. Here's what happens next. Stripe has also emailed you a receipt.</p>
-    <ol class="steps" style="margin-top:28px">
-      <li><p><strong>Join our Discord</strong><span id="discord-line">Use the invite link in your receipt email.</span></p></li>
-      <li><p><strong>Get the installer</strong>We'll send it to you in the testers channel.</p></li>
-      <li><p><strong>Send us your PC ID</strong>Install GLCRY METER, copy the PC ID it shows, and send it to us. Your key comes back, usually within a few hours.</p></li>
-    </ol>
-    <p style="margin-top:28px"><a class="btn ghost" href="#top">Back to the site</a></p>
+    <p style="margin-top:14px;color:var(--muted)">Welcome to the GLCRY METER beta. Your key and everything you need are below. Setup takes about 10 minutes.</p>
+
+    <div class="keycard loading" id="keycard" aria-live="polite">
+      <p class="eyebrow" id="key-label">Your key</p>
+      <div class="keyval" id="key-val">Getting your key...</div>
+      <div class="keyrow">
+        <button class="btn" id="key-copy" type="button" hidden>Copy key</button>
+        <a class="btn ghost" id="key-dl" href="GLCRY-METER-Setup.cmd" download="GLCRY METER Setup.cmd">Download GLCRY METER</a>
+      </div>
+      <span class="small" id="key-note">Keep this page open until you've copied your key. Opening this page again from the same link shows the same key.</span>
+    </div>
+
+    <div class="guide">
+      <h3>Setup guide</h3>
+      <ol class="steps" style="margin-top:12px">
+        <li><p><strong>Download and run the installer</strong>Press <em>Download GLCRY METER</em> above. If your browser asks, choose <kbd>Keep</kbd>. Double-click <em>GLCRY METER Setup</em> and press <kbd>Yes</kbd>.
+          <span class="shot">If Windows shows "Windows protected your PC", click <kbd>More info</kbd> then <kbd>Run anyway</kbd>. That's normal for new apps.</span></p></li>
+        <li><p><strong>Let it finish</strong>A window installs everything for you (about 5 minutes). Six steps turn green, then GLCRY METER opens by itself.</p></li>
+        <li><p><strong>Paste your key</strong>Copy your key from this page and paste it into the box in GLCRY METER. You'll see "Activating this PC...", then the main screen. Your key now belongs to this PC.</p></li>
+        <li><p><strong>Start OBS Virtual Camera</strong>Open <a href="https://obsproject.com" target="_blank" rel="noopener">OBS Studio</a> (free) with your game capture, and press <kbd>Start Virtual Camera</kbd>. GLCRY METER's <em>VIDEO</em> card turns green.</p></li>
+        <li><p><strong>Choose your controller</strong>GLCRY METER asks how your controller is connected. Pick it, and press <kbd>Yes</kbd> when Windows asks. Your controller disconnects for a second; that's GLCRY METER taking over.</p></li>
+        <li><p><strong>Set your timing and play</strong>Take a few shots. If they're consistently early or late, open <em>Shot settings</em> and use <kbd>-</kbd> / <kbd>+</kbd>. Updates install themselves every time you open GLCRY METER.</p></li>
+      </ol>
+      <h3 style="margin-top:40px;margin-bottom:6px">If something's not right</h3>
+      <details><summary>The game reacts twice to one button press</summary><p>Close GLCRY METER, unplug your controller, plug it back in, and open GLCRY METER again. If it still happens, restart your PC once.</p></details>
+      <details><summary>The VIDEO card stays amber</summary><p>Make sure OBS is open and Virtual Camera is started. In GLCRY METER's Advanced view, pick <em>OBS Virtual Camera</em> as the capture device.</p></details>
+      <details><summary>My controller doesn't move in the game</summary><p>Close GLCRY METER normally (with the X) to give the game your controller back, then open it again and press <kbd>Yes</kbd> on the Windows prompt.</p></details>
+      <details><summary>"This key is already being used on another PC"</summary><p>Each key works on one PC. Got a new PC? Message us on Discord with your receipt and we'll move it.</p></details>
+      <details><summary>I lost my key</summary><p>Open this page again from the same link, or message us on Discord with your receipt email.</p></details>
+    </div>
+
+    <p style="margin-top:36px">Questions? Join us on <a id="thanks-discord" href="https://discord.gg/glcrify" target="_blank" rel="noopener">discord.gg/glcrify</a>.</p>
+    <p style="margin-top:18px"><a class="btn ghost" href="#top">Back to the site</a></p>
   </div>
 </main>
+<div class="toast" id="toast" role="status">Key copied</div>
 
 <!-- ============ TERMS VIEW ============ -->
 <main id="view-terms" class="view" hidden>
@@ -351,6 +394,7 @@ footer .wrap { display: flex; flex-wrap: wrap; justify-content: space-between; g
 var SETTINGS = {
   stripeLink: "https://buy.stripe.com/8x26oH9Uednhd593v34ZG01",
   discordInvite: "https://discord.gg/glcrify",
+  shopApi: "https://glcry-activation.ripglorify.workers.dev",   // hands out keys after payment
   contactEmail: ""         // e.g. "support@yourdomain.com"
 };
 /* ================================================================= */
@@ -371,12 +415,8 @@ var SETTINGS = {
     }
   });
   if (SETTINGS.discordInvite) {
-    var dl = document.getElementById("discord-line");
-    dl.innerHTML = "";
-    var link = document.createElement("a");
-    link.href = SETTINGS.discordInvite; link.target = "_blank"; link.rel = "noopener";
-    link.textContent = SETTINGS.discordInvite;
-    dl.appendChild(document.createTextNode("Join here: ")); dl.appendChild(link);
+    var td = document.getElementById("thanks-discord");
+    if (td) td.href = SETTINGS.discordInvite;
     document.getElementById("contact-discord").textContent = SETTINGS.discordInvite;
   }
   if (SETTINGS.contactEmail) document.getElementById("contact-email").textContent = SETTINGS.contactEmail;
@@ -393,6 +433,55 @@ var SETTINGS = {
   }
   window.addEventListener("hashchange", route);
   route();
+
+  // ---------- thank-you page: swap the paid checkout for a key ----------
+  var sid = new URLSearchParams(location.search).get("session_id");
+  if (sid && location.hash !== "#thanks") { location.hash = "thanks"; }
+  var card = document.getElementById("keycard"), kv = document.getElementById("key-val"),
+      kc = document.getElementById("key-copy"), note = document.getElementById("key-note");
+  function keyError(title, msg) {
+    card.className = "keycard err";
+    document.getElementById("key-label").textContent = title;
+    kv.textContent = msg;
+    note.textContent = "Your payment is safe. Message us on Discord with your receipt email and we'll sort it out.";
+  }
+  function claim(tries) {
+    if (!sid) { keyError("Key not found", "Open this page from the link Stripe sent you to after paying."); return; }
+    if (!SETTINGS.shopApi) { keyError("Almost there", "We'll send your key on Discord."); return; }
+    fetch(SETTINGS.shopApi.replace(/\/$/, "") + "/claim?session_id=" + encodeURIComponent(sid))
+      .then(function (r) { return r.json().catch(function () { return { ok: false, reason: "error" }; }); })
+      .then(function (d) {
+        if (d.ok) {
+          card.className = "keycard";
+          kv.textContent = d.key;
+          kc.hidden = false;
+          if (d.discord) note.textContent = "Linked to Discord " + d.discord + ". Opening this page again from the same link shows the same key.";
+          return;
+        }
+        if (d.reason === "unpaid" && tries < 6) { kv.textContent = "Waiting for your payment to finish..."; setTimeout(function () { claim(tries + 1); }, 4000); return; }
+        var msgs = {
+          unpaid: ["Payment still processing", "Your payment hasn't finished yet. Refresh this page in a minute."],
+          empty: ["Restocking keys", "We're adding more keys right now. Your key will be sent to you on Discord within a few hours."],
+          cancelled: ["Subscription not active", "This subscription has been cancelled."],
+          notfound: ["Key not found", "We couldn't find this checkout. Open this page from the link Stripe sent you to."],
+          setup: ["Almost there", "We'll send your key on Discord shortly."]
+        };
+        var m = msgs[d.reason] || ["Couldn't get your key", "Something went wrong on our side. Refresh this page, or message us on Discord."];
+        keyError(m[0], m[1]);
+      })
+      .catch(function () {
+        if (tries < 3) { setTimeout(function () { claim(tries + 1); }, 3000); return; }
+        keyError("Couldn't get your key", "Check your internet and refresh this page.");
+      });
+  }
+  if (location.hash === "#thanks" || sid) claim(0);
+  kc.addEventListener("click", function () {
+    var t = kv.textContent, toast = document.getElementById("toast");
+    function done() { toast.classList.add("show"); setTimeout(function () { toast.classList.remove("show"); }, 1600); }
+    if (navigator.clipboard) navigator.clipboard.writeText(t).then(done, function () { selectKey(); });
+    else selectKey();
+    function selectKey() { var r = document.createRange(); r.selectNodeContents(kv); var s = getSelection(); s.removeAllRanges(); s.addRange(r); }
+  });
 
   // ---------- the meter ----------
   var cx = 210, cy = 560, R = 520;          // a shallow upward arch
