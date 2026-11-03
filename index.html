@@ -5,191 +5,337 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <link rel="icon" href="icon.png">
 <title>GLCRY METER Beta</title>
-<meta name="claude:viewport-fit-sides" content="cover">
-<meta name="description" content="Apply to the GLCRY METER beta by Glcrify: a shot meter reader for our community NBA 2K21 servers.">
+<meta name="description" content="Apply to the GLCRY METER beta by Glcrify: a shot meter timing tool for our community NBA 2K21 servers.">
+<meta name="theme-color" content="#0b0f15">
+<meta property="og:title" content="GLCRY METER Beta">
+<meta property="og:description" content="Shot meter timing for our community NBA 2K21 servers. Closed beta, limited seats.">
+<meta property="og:image" content="icon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@600;800;900&family=Figtree:wght@400;500;600&family=JetBrains+Mono:wght@500&display=swap">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@700;800;900&family=Figtree:wght@400;500;600;700&family=JetBrains+Mono:wght@500;700&display=swap">
 <style>
-/* Layout: arena scoreboard. A full-width meter hero, then a narrow reading column with one pricing "ticket". */
+/* Arena at night: a dark scoreboard page, gold meter line, green release. */
 :root {
-  --bg: #f3efe6;          /* hardwood-paper */
-  --bg-2: #e8e1d2;
-  --ink: #18202c;
-  --muted: #5d6573;
-  --line: #d6cdbb;
-  --gold: #b9860f;        /* meter line */
-  --khaki: #b5a26a;       /* meter zone */
-  --green: #1f9d55;       /* EXCELLENT */
-  --card: #fbf8f1;
-  --meter-body: #2b313b;
-  --meter-rim: #c9ccd2;
+  --bg: #0b0f15;
+  --bg-2: #10161f;
+  --panel: #141b26;
+  --panel-2: #19222f;
+  --ink: #eef1f6;
+  --muted: #98a2b3;
+  --faint: #5f6b7d;
+  --line: #233042;
+  --line-2: #2d3b50;
+  --gold: #f2b93b;
+  --gold-ink: #1a1203;
+  --khaki: #c7b47a;
+  --green: #3ddc84;
+  --green-deep: #19a35a;
+  --red: #ff6b6b;
+  --meter-body: #05070a;
+  --meter-rim: #b9c0cb;
   --display: "Big Shoulders Display", "Arial Narrow", Impact, sans-serif;
   --body: "Figtree", "Segoe UI", system-ui, sans-serif;
   --mono: "JetBrains Mono", ui-monospace, Consolas, monospace;
+  --radius: 14px;
+  color-scheme: dark;
 }
-@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
-  --bg: #0f141c; --bg-2: #151c27; --ink: #e9ecf1; --muted: #9aa3b2; --line: #263041;
-  --gold: #f0b83a; --khaki: #c8b67a; --green: #3fd17f; --card: #161e2a;
-  --meter-body: #05070a; --meter-rim: #aeb4be; color-scheme: dark; } }
-:root[data-theme="dark"] {
-  --bg: #0f141c; --bg-2: #151c27; --ink: #e9ecf1; --muted: #9aa3b2; --line: #263041;
-  --gold: #f0b83a; --khaki: #c8b67a; --green: #3fd17f; --card: #161e2a;
-  --meter-body: #05070a; --meter-rim: #aeb4be; color-scheme: dark; }
-
 * { box-sizing: border-box; }
-body { background: var(--bg); color: var(--ink); font: 16px/1.6 var(--body); }
+html { scroll-behavior: smooth; scroll-padding-top: 84px; }
+body { margin: 0; background: var(--bg); color: var(--ink); font: 16px/1.6 var(--body); -webkit-font-smoothing: antialiased;
+  padding-top: env(safe-area-inset-top, 0px); padding-bottom: env(safe-area-inset-bottom, 0px); }
+img { max-width: 100%; }
+[hidden] { display: none !important; }
 a { color: inherit; }
-.wrap { max-width: 1080px; margin: 0 auto; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
-.col { max-width: 680px; }
-h1, h2, h3 { font-family: var(--display); line-height: 1; text-wrap: balance; margin: 0; }
-h2 { font-size: clamp(2rem, 5vw, 2.9rem); font-weight: 800; text-transform: uppercase; letter-spacing: .01em; }
-h3 { font-size: 1.35rem; font-weight: 800; text-transform: uppercase; letter-spacing: .02em; }
 p { margin: 0; }
-.eyebrow { font: 500 .75rem/1 var(--mono); letter-spacing: .14em; text-transform: uppercase; color: var(--muted); }
+h1, h2, h3 { font-family: var(--display); line-height: .95; text-wrap: balance; margin: 0; text-transform: uppercase; }
+h2 { font-size: clamp(2.2rem, 5.4vw, 3.4rem); font-weight: 900; letter-spacing: .005em; }
+h3 { font-size: 1.4rem; font-weight: 800; letter-spacing: .02em; }
+.wrap { max-width: 1140px; margin: 0 auto; padding-left: max(20px, env(safe-area-inset-left, 0px)); padding-right: max(20px, env(safe-area-inset-right, 0px)); }
+.col { max-width: 700px; }
+.eyebrow { font: 700 .72rem/1 var(--mono); letter-spacing: .16em; text-transform: uppercase; color: var(--gold); }
 .mono { font-family: var(--mono); font-variant-numeric: tabular-nums; }
+.muted { color: var(--muted); }
+.small { font-size: .86rem; color: var(--muted); }
 
-/* top bar */
-.bar { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding-block: 18px; }
-.brand { font: 900 1.5rem/1 var(--display); letter-spacing: .04em; text-transform: uppercase; text-decoration: none; }
+/* ---------- header ---------- */
+.top { position: sticky; top: 0; z-index: 20; background: rgba(11, 15, 21, .78); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border-bottom: 1px solid transparent; transition: border-color .2s; }
+.top.scrolled { border-bottom-color: var(--line); }
+.bar { display: flex; align-items: center; justify-content: space-between; gap: 16px; height: 68px; }
+.brand { display: inline-flex; align-items: center; gap: 10px; font: 900 1.55rem/1 var(--display); letter-spacing: .05em; text-transform: uppercase; text-decoration: none; }
+.brand svg { width: 30px; height: 30px; flex: none; }
 .brand span { color: var(--gold); }
-.nav { display: flex; gap: 18px; font-size: .92rem; }
-.nav a { text-decoration: none; color: var(--muted); }
+.nav { display: flex; align-items: center; gap: 22px; font-size: .92rem; }
+.nav a { text-decoration: none; color: var(--muted); transition: color .15s; }
 .nav a:hover, .nav a:focus-visible { color: var(--ink); }
+.nav .btn { color: var(--gold-ink); }
 
-/* hero */
-.hero { display: grid; grid-template-columns: 1.05fr 1fr; gap: 40px; align-items: center; padding-block: 36px 56px; }
-.hero h1 { font-size: clamp(3rem, 8.5vw, 6rem); font-weight: 900; text-transform: uppercase; letter-spacing: -.005em; }
-.hero h1 em { font-style: normal; color: var(--green); }
-.hero .lede { margin-top: 18px; font-size: 1.12rem; color: var(--muted); max-width: 30em; }
-.cta-row { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; margin-top: 26px; }
-.btn { display: inline-flex; align-items: center; gap: 10px; border: 0; cursor: pointer; text-decoration: none;
-  font: 800 1.15rem/1 var(--display); letter-spacing: .06em; text-transform: uppercase; padding: 16px 26px;
-  border-radius: 4px; background: var(--ink); color: var(--bg); }
-.btn:hover { transform: translateY(-1px); }
-.btn:focus-visible, .nav a:focus-visible, summary:focus-visible { outline: 3px solid var(--gold); outline-offset: 3px; }
-.btn.ghost { background: transparent; color: var(--ink); box-shadow: inset 0 0 0 2px var(--line); }
-.btn[aria-disabled="true"] { opacity: .55; cursor: default; transform: none; }
-.small { font-size: .85rem; color: var(--muted); }
+/* ---------- buttons ---------- */
+.btn { display: inline-flex; align-items: center; justify-content: center; gap: 10px; border: 0; cursor: pointer; text-decoration: none;
+  font: 800 1.12rem/1 var(--display); letter-spacing: .07em; text-transform: uppercase; padding: 16px 26px;
+  border-radius: 10px; background: var(--gold); color: var(--gold-ink); transition: transform .15s, box-shadow .15s, background .15s;
+  box-shadow: 0 8px 28px -10px rgba(242, 185, 59, .55); white-space: nowrap; }
+.btn:hover { transform: translateY(-1px); box-shadow: 0 12px 30px -10px rgba(242, 185, 59, .75); }
+.btn.sm { padding: 10px 16px; font-size: .98rem; border-radius: 8px; }
+.btn.ghost { background: transparent; color: var(--ink); box-shadow: inset 0 0 0 1.5px var(--line-2); }
+.btn.ghost:hover { box-shadow: inset 0 0 0 1.5px var(--muted); }
+.btn.green { background: var(--green); color: #04150b; box-shadow: 0 8px 28px -10px rgba(61, 220, 132, .55); }
+.btn[aria-disabled="true"] { opacity: .5; cursor: default; transform: none; }
+.btn svg { width: 18px; height: 18px; }
+.btn:focus-visible, .nav a:focus-visible, summary:focus-visible, .brand:focus-visible { outline: 3px solid var(--green); outline-offset: 3px; }
 
-.meter-stage { background: var(--bg-2); border: 1px solid var(--line); border-radius: 6px; padding: 26px 18px 18px; }
-.meter-stage svg { width: 100%; height: auto; display: block; }
-.readout { display: flex; justify-content: space-between; gap: 10px; flex-wrap: wrap; margin-top: 10px; font: 500 .8rem/1.4 var(--mono); color: var(--muted); }
-.verdict { font: 900 1.6rem/1 var(--display); letter-spacing: .06em; text-transform: uppercase; color: var(--green); text-align: center; margin-top: 4px; min-height: 1.6rem; }
+/* ---------- hero ---------- */
+.hero-bg { position: relative; overflow: hidden; }
+.hero-bg::before { content: ""; position: absolute; inset: -20% -10% auto; height: 120%;
+  background: radial-gradient(60% 50% at 75% 35%, rgba(61, 220, 132, .12), transparent 70%),
+              radial-gradient(45% 45% at 15% 20%, rgba(242, 185, 59, .09), transparent 70%); pointer-events: none; }
+.court { position: absolute; inset: 0; opacity: .5; pointer-events: none; }
+.hero { position: relative; display: grid; grid-template-columns: 1.02fr 1fr; gap: 48px; align-items: center; padding-block: 56px 72px; }
+.pill { display: inline-flex; align-items: center; gap: 8px; padding: 6px 12px 6px 8px; border: 1px solid var(--line-2); border-radius: 999px; background: rgba(20, 27, 38, .7); font-size: .82rem; color: var(--muted); }
+.pill i { width: 8px; height: 8px; border-radius: 50%; background: var(--green); box-shadow: 0 0 0 4px rgba(61, 220, 132, .18); animation: pulse 2s infinite; }
+@keyframes pulse { 50% { box-shadow: 0 0 0 7px rgba(61, 220, 132, 0); } }
+.hero h1 { margin-top: 18px; font-size: clamp(3.4rem, 9vw, 6.6rem); font-weight: 900; letter-spacing: -.005em; }
+.hero h1 em { font-style: normal; color: var(--green); text-shadow: 0 0 40px rgba(61, 220, 132, .35); }
+.hero .lede { margin-top: 20px; font-size: 1.14rem; color: var(--muted); max-width: 31em; }
+.cta-row { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; margin-top: 30px; }
+.trust { display: flex; flex-wrap: wrap; gap: 8px 18px; margin-top: 22px; padding: 0; list-style: none; font-size: .86rem; color: var(--muted); }
+.trust li { display: inline-flex; align-items: center; gap: 7px; }
+.trust svg { width: 15px; height: 15px; color: var(--green); }
 
-/* stats strip */
-.strip { border-block: 1px solid var(--line); }
-.strip .wrap { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0; }
-.stat { padding-block: 22px; padding-right: 16px; }
-.stat b { display: block; font: 900 2.3rem/1 var(--display); }
-.stat span { font-size: .88rem; color: var(--muted); }
+/* meter card */
+.stage { position: relative; background: linear-gradient(180deg, var(--panel-2), var(--panel)); border: 1px solid var(--line); border-radius: 20px; padding: 22px 20px 18px;
+  box-shadow: 0 40px 80px -40px rgba(0, 0, 0, .8), inset 0 1px 0 rgba(255, 255, 255, .04); }
+.stage-head { display: flex; justify-content: space-between; align-items: center; font: 700 .7rem/1 var(--mono); letter-spacing: .14em; text-transform: uppercase; color: var(--faint); }
+.stage-head b { color: var(--green); font-weight: 700; display: inline-flex; align-items: center; gap: 6px; }
+.stage-head b::before { content: ""; width: 6px; height: 6px; border-radius: 50%; background: currentColor; }
+.stage svg.meter { width: 100%; height: auto; display: block; margin-top: 10px; filter: drop-shadow(0 6px 18px rgba(0, 0, 0, .5)); }
+.verdict { font: 900 2rem/1 var(--display); letter-spacing: .08em; text-transform: uppercase; color: var(--green); text-align: center; min-height: 2rem; text-shadow: 0 0 24px rgba(61, 220, 132, .45); transition: opacity .15s; }
+.readout { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-top: 16px; }
+.readout div { background: var(--bg); border: 1px solid var(--line); border-radius: 10px; padding: 9px 10px; }
+.readout span { display: block; font: 700 .62rem/1 var(--mono); letter-spacing: .12em; text-transform: uppercase; color: var(--faint); }
+.readout b { display: block; margin-top: 6px; font: 700 .98rem/1 var(--mono); font-variant-numeric: tabular-nums; }
+.shots { display: flex; gap: 6px; margin-top: 12px; justify-content: center; }
+.shots i { width: 22px; height: 6px; border-radius: 3px; background: var(--line-2); transition: background .2s; }
+.shots i.g { background: var(--green); }
+.demo-note { margin-top: 10px; text-align: center; font-size: .74rem; color: var(--faint); }
 
-section { padding-block: 64px; }
-.sec-head { display: grid; gap: 12px; margin-bottom: 30px; }
+/* ---------- stats ---------- */
+.strip { border-block: 1px solid var(--line); background: var(--bg-2); }
+.strip .wrap { display: grid; grid-template-columns: repeat(4, 1fr); }
+.stat { padding: 26px 18px 26px 0; }
+.stat + .stat { padding-left: 22px; border-left: 1px solid var(--line); }
+.stat b { display: block; font: 900 2.5rem/1 var(--display); letter-spacing: .01em; }
+.stat b small { font-size: 1.2rem; color: var(--muted); margin-left: 2px; }
+.stat span { display: block; margin-top: 6px; font-size: .88rem; color: var(--muted); }
 
-.grid2 { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 28px 40px; }
-.feat h3 { margin-bottom: 6px; }
-.feat p { color: var(--muted); }
+/* ---------- sections ---------- */
+section { padding-block: 88px; }
+.sec-head { display: grid; gap: 14px; margin-bottom: 40px; }
+.sec-head p.muted { font-size: 1.06rem; }
 
-.steps { list-style: none; margin: 0; padding: 0; display: grid; gap: 0; counter-reset: s; }
-.steps li { display: grid; grid-template-columns: 64px minmax(0, 1fr); gap: 16px; padding-block: 18px; border-top: 1px solid var(--line); counter-increment: s; }
-.steps li::before { content: counter(s, decimal-leading-zero); font: 900 2.2rem/1 var(--display); color: var(--gold); }
-.steps p { color: var(--muted); }
-.steps strong { color: var(--ink); display: block; font-weight: 600; }
+.cards { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
+.card { background: var(--panel); border: 1px solid var(--line); border-radius: var(--radius); padding: 24px; transition: border-color .2s, transform .2s; }
+.card:hover { border-color: var(--line-2); transform: translateY(-2px); }
+.card .ico { width: 42px; height: 42px; border-radius: 11px; display: grid; place-items: center; background: rgba(242, 185, 59, .1); color: var(--gold); margin-bottom: 18px; }
+.card .ico svg { width: 22px; height: 22px; }
+.card h3 { margin-bottom: 8px; }
+.card p { color: var(--muted); font-size: .96rem; }
 
-.req { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px 32px; padding: 0; margin: 0; list-style: none; }
-.req li { padding-left: 22px; position: relative; }
-.req li::before { content: ""; position: absolute; left: 0; top: .62em; width: 10px; height: 4px; border-radius: 2px; background: var(--khaki); }
+.alt { background: var(--bg-2); border-block: 1px solid var(--line); }
+.flow { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 16px; counter-reset: s; }
+.flow li { position: relative; background: var(--panel); border: 1px solid var(--line); border-radius: var(--radius); padding: 22px; counter-increment: s; }
+.flow li::before { content: counter(s, decimal-leading-zero); display: block; font: 900 2.6rem/1 var(--display); color: var(--gold); margin-bottom: 14px; }
+.flow li strong { display: block; font-weight: 700; margin-bottom: 6px; }
+.flow li p { color: var(--muted); font-size: .94rem; }
 
-/* ticket */
-.ticket { display: grid; grid-template-columns: 1fr auto; gap: 24px; align-items: center; background: var(--card);
-  border: 1px solid var(--line); border-radius: 6px; padding: 28px; position: relative; }
-.ticket::after { content: ""; position: absolute; top: 18px; bottom: 18px; right: 230px; border-right: 2px dashed var(--line); }
-.price { font: 900 4.2rem/1 var(--display); }
-.price small { font: 600 1.05rem var(--body); color: var(--muted); margin-left: 4px; }
-.ticket ul { margin: 14px 0 0; padding-left: 18px; color: var(--muted); }
-.ticket .side { width: 200px; display: grid; gap: 10px; justify-items: stretch; text-align: center; }
-.notice { margin-top: 14px; font-size: .85rem; color: var(--muted); }
+.needs { display: grid; grid-template-columns: 1.1fr 1fr; gap: 16px; margin-top: 16px; }
+.box { background: var(--panel); border: 1px solid var(--line); border-radius: var(--radius); padding: 24px; }
+.box h3 { margin-bottom: 16px; }
+.check { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px 24px; padding: 0; margin: 0; list-style: none; }
+.check li { display: flex; gap: 10px; align-items: flex-start; font-size: .95rem; }
+.check svg { flex: none; width: 18px; height: 18px; margin-top: 3px; color: var(--green); }
+.spec { display: grid; gap: 0; margin: 0; }
+.spec div { display: flex; justify-content: space-between; gap: 12px; padding: 10px 0; border-top: 1px solid var(--line); font-size: .94rem; }
+.spec div:first-child { border-top: 0; padding-top: 0; }
+.spec dt { color: var(--muted); }
+.spec dd { margin: 0; font-family: var(--mono); font-weight: 700; text-align: right; }
 
-details { border-top: 1px solid var(--line); padding-block: 16px; }
-details:last-child { border-bottom: 1px solid var(--line); }
-summary { cursor: pointer; font-weight: 600; list-style: none; display: flex; justify-content: space-between; gap: 16px; }
-summary::after { content: "+"; font-family: var(--mono); color: var(--muted); }
-details[open] summary::after { content: "\2212"; }
-details p { margin-top: 10px; color: var(--muted); }
+/* ---------- price ---------- */
+.ticket { position: relative; display: grid; grid-template-columns: 1fr 280px; background: var(--panel); border: 1px solid var(--line-2); border-radius: 20px; overflow: hidden;
+  box-shadow: 0 30px 60px -40px rgba(0, 0, 0, .9); }
+.ticket .main { padding: 34px; }
+.ticket .side { position: relative; display: grid; gap: 12px; align-content: center; justify-items: stretch; text-align: center; padding: 34px 28px; background: var(--panel-2); border-left: 2px dashed var(--line-2); }
+.ticket .side::before, .ticket .side::after { content: ""; position: absolute; left: -13px; width: 24px; height: 24px; border-radius: 50%; background: var(--bg); border: 1px solid var(--line-2); }
+.ticket .side::before { top: -13px; } .ticket .side::after { bottom: -13px; }
+.price { font: 900 5rem/1 var(--display); letter-spacing: -.01em; }
+.price small { font: 600 1.05rem var(--body); color: var(--muted); margin-left: 6px; letter-spacing: 0; }
+.ticket ul { list-style: none; margin: 22px 0 0; padding: 0; display: grid; gap: 10px; }
+.ticket li { display: flex; gap: 10px; align-items: flex-start; }
+.ticket li svg { flex: none; width: 18px; height: 18px; margin-top: 3px; color: var(--green); }
+.seat { font: 700 .72rem/1 var(--mono); letter-spacing: .14em; text-transform: uppercase; color: var(--gold); }
+.notice { margin-top: 18px; font-size: .9rem; color: var(--muted); }
 
-.legal h3 { margin-top: 30px; margin-bottom: 8px; }
+/* ---------- faq ---------- */
+details { border-top: 1px solid var(--line); padding-block: 18px; }
+details:last-of-type { border-bottom: 1px solid var(--line); }
+summary { cursor: pointer; font-weight: 600; font-size: 1.04rem; list-style: none; display: flex; justify-content: space-between; align-items: center; gap: 16px; }
+summary::-webkit-details-marker { display: none; }
+summary::after { content: "+"; flex: none; width: 28px; height: 28px; display: grid; place-items: center; border: 1px solid var(--line-2); border-radius: 8px; font-family: var(--mono); color: var(--muted); transition: transform .2s; }
+details[open] summary::after { content: "\2212"; color: var(--gold); }
+details p { margin-top: 12px; color: var(--muted); }
+details p a { color: var(--ink); }
+
+/* ---------- final cta ---------- */
+.final { text-align: center; padding-block: 90px; background: radial-gradient(50% 80% at 50% 100%, rgba(61, 220, 132, .12), transparent 70%); border-top: 1px solid var(--line); }
+.final h2 { font-size: clamp(2.6rem, 7vw, 4.6rem); }
+.final h2 em { font-style: normal; color: var(--green); }
+.final .cta-row { justify-content: center; }
+
+/* ---------- legal ---------- */
+.legal h3 { margin-top: 34px; margin-bottom: 10px; }
 .legal p, .legal li { color: var(--muted); }
 .legal ul { padding-left: 20px; }
+.legal strong { color: var(--ink); }
 
-footer { border-top: 1px solid var(--line); padding-block: 28px 40px; color: var(--muted); font-size: .88rem; }
-footer .wrap { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 12px; }
+footer { border-top: 1px solid var(--line); padding-block: 30px 44px; color: var(--muted); font-size: .88rem; }
+footer .wrap { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 14px; }
+footer nav { display: flex; flex-wrap: wrap; gap: 18px; }
+footer a { text-decoration: none; }
+footer a:hover { color: var(--ink); }
 
+/* ---------- thank-you ---------- */
 .view[hidden] { display: none !important; }
-.thanks { padding-block: 70px; }
-.thanks .steps li::before { color: var(--green); }
-.keycard { margin-top: 30px; background: var(--card); border: 2px solid var(--line); border-radius: 18px; padding: 22px; position: relative; overflow: hidden; }
-.keycard::before { content: ""; position: absolute; inset: 0 auto 0 0; width: 6px; background: var(--gold); }
-.keycard .eyebrow { margin-bottom: 10px; }
-.keyval { font: 500 clamp(.78rem, 2.4vw, 1rem)/1.5 var(--mono); word-break: break-all; background: var(--bg); border: 1px solid var(--line); border-radius: 10px; padding: 14px; user-select: all; }
-.keyrow { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 14px; }
-.keycard .small { display: block; margin-top: 12px; color: var(--muted); font-size: .85rem; }
+.thanks { padding-block: 56px 80px; }
+.thanks .hello { display: flex; align-items: center; gap: 16px; }
+.thanks .tick { flex: none; width: 56px; height: 56px; border-radius: 50%; display: grid; place-items: center; background: rgba(61, 220, 132, .14); color: var(--green); }
+.thanks .tick svg { width: 30px; height: 30px; }
+.progress { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin-top: 30px; list-style: none; padding: 0; }
+.progress li { font: 700 .66rem/1.3 var(--mono); letter-spacing: .1em; text-transform: uppercase; color: var(--faint); padding-top: 10px; border-top: 3px solid var(--line-2); }
+.progress li.done { color: var(--green); border-top-color: var(--green); }
+.progress li.now { color: var(--gold); border-top-color: var(--gold); }
+.keycard { margin-top: 28px; background: linear-gradient(180deg, var(--panel-2), var(--panel)); border: 1px solid var(--line-2); border-radius: 20px; padding: 26px; position: relative; overflow: hidden; }
+.keycard::before { content: ""; position: absolute; inset: 0 auto 0 0; width: 5px; background: var(--gold); }
+.keycard .eyebrow { margin-bottom: 12px; }
+.keyval { font: 700 clamp(.82rem, 2.4vw, 1.05rem)/1.55 var(--mono); word-break: break-all; background: var(--bg); border: 1px solid var(--line-2); border-radius: 12px; padding: 16px; user-select: all; color: var(--gold); }
+.keyrow { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 16px; }
+.keyrow .btn { white-space: normal; text-align: center; }
+.keycard .small { display: block; margin-top: 14px; }
 .keycard.loading .keyval { color: var(--muted); }
-.keycard.err { border-color: #d9534f; }
-.keycard.err::before { background: #d9534f; }
+.keycard.loading .keyval::after { content: ""; display: inline-block; width: 14px; height: 14px; margin-left: 10px; vertical-align: -2px; border: 2px solid var(--line-2); border-top-color: var(--gold); border-radius: 50%; animation: spin .8s linear infinite; }
+@keyframes spin { to { transform: rotate(360deg); } }
+.keycard.err { border-color: rgba(255, 107, 107, .6); }
+.keycard.err::before { background: var(--red); }
+.keycard.err .eyebrow { color: var(--red); }
 .keycard.err .keyval, .keycard.loading .keyval { font: 500 1rem/1.5 var(--body); word-break: normal; user-select: text; }
-.guide { margin-top: 44px; }
-.guide .steps li { padding-block: 22px; }
-.guide kbd { font: 500 .85em var(--mono); background: var(--bg-2); border: 1px solid var(--line); border-bottom-width: 2px; border-radius: 6px; padding: 1px 6px; color: var(--ink); }
-.guide .shot { display: block; margin-top: 10px; padding: 10px 12px; border-left: 3px solid var(--gold); background: var(--bg-2); border-radius: 0 8px 8px 0; font-size: .9rem; color: var(--muted); }
-.toast { position: fixed; left: 50%; bottom: 24px; transform: translateX(-50%) translateY(20px); background: var(--ink); color: var(--bg); padding: 10px 18px; border-radius: 999px; font-weight: 600; opacity: 0; transition: .2s; pointer-events: none; }
+.keycard.err .keyval { color: var(--ink); }
+.guide { margin-top: 56px; }
+.guide > h3 { font-size: 1.9rem; }
+.gsteps { list-style: none; margin: 18px 0 0; padding: 0; counter-reset: g; display: grid; gap: 12px; }
+.gsteps li { display: grid; grid-template-columns: 46px minmax(0, 1fr); gap: 16px; background: var(--panel); border: 1px solid var(--line); border-radius: var(--radius); padding: 20px; counter-increment: g; }
+.gsteps li::before { content: counter(g); width: 46px; height: 46px; border-radius: 12px; display: grid; place-items: center; background: rgba(61, 220, 132, .12); color: var(--green); font: 900 1.5rem/1 var(--display); }
+.gsteps .gb { color: var(--muted); min-width: 0; }
+.gsteps strong { display: block; font-weight: 700; font-size: 1.06rem; margin-bottom: 4px; color: var(--ink); }
+.gsteps .gb a { color: var(--ink); }
+.obs .spec dt { min-width: 0; }
+kbd { font: 700 .82em var(--mono); background: var(--bg); border: 1px solid var(--line-2); border-bottom-width: 2px; border-radius: 6px; padding: 1px 6px; color: var(--ink); white-space: nowrap; }
+.tip { display: block; margin-top: 12px; padding: 11px 14px; border-left: 3px solid var(--gold); background: var(--bg); border-radius: 0 10px 10px 0; font-size: .9rem; color: var(--muted); }
+.tip.green { border-left-color: var(--green); }
+.tip b { color: var(--ink); }
+.obs { margin-top: 12px; }
+.obs .spec div { padding: 8px 0; font-size: .9rem; }
+.help { margin-top: 44px; }
+.help h3 { margin-bottom: 8px; }
+
+.toast { position: fixed; left: 50%; bottom: calc(24px + env(safe-area-inset-bottom, 0px)); transform: translateX(-50%) translateY(20px); background: var(--green); color: #04150b; padding: 11px 20px; border-radius: 999px; font-weight: 700; opacity: 0; transition: .2s; pointer-events: none; z-index: 30; }
 .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
 
-@media (max-width: 820px) {
-  .hero { grid-template-columns: 1fr; padding-block: 20px 40px; }
-  .strip .wrap { grid-template-columns: repeat(2, 1fr); }
-  .grid2, .req { grid-template-columns: 1fr; }
-  .ticket { grid-template-columns: 1fr; }
-  .ticket::after { display: none; }
-  .ticket .side { width: auto; }
-  .nav { display: none; }
+@media (max-width: 920px) {
+  .hero { grid-template-columns: 1fr; gap: 36px; padding-block: 34px 56px; }
+  .cards { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .flow { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .needs { grid-template-columns: 1fr; }
+  .nav a:not(.btn) { display: none; }
 }
-@media (prefers-reduced-motion: reduce) { .btn:hover { transform: none; } }
+@media (max-width: 640px) {
+  section { padding-block: 64px; }
+  .strip .wrap { grid-template-columns: repeat(2, 1fr); }
+  .stat:nth-child(3) { padding-left: 0; border-left: 0; }
+  .stat:nth-child(n+3) { border-top: 1px solid var(--line); }
+  .cards, .flow, .check { grid-template-columns: 1fr; }
+  .ticket { grid-template-columns: 1fr; }
+  .ticket .main { padding: 26px; }
+  .ticket .side { border-left: 0; border-top: 2px dashed var(--line-2); padding: 26px; }
+  .ticket .side::before { top: -13px; left: -13px; } .ticket .side::after { top: -13px; bottom: auto; left: auto; right: -13px; }
+  .price { font-size: 4.2rem; }
+  .readout b { font-size: .86rem; }
+  .gsteps li { grid-template-columns: 1fr; gap: 12px; }
+  .brand { font-size: 1.3rem; gap: 8px; } .brand svg { width: 26px; height: 26px; }
+  .nav .btn.sm { padding: 9px 12px; font-size: .9rem; }
+  .keyrow .btn { flex: 1 1 100%; }
+  .cta-row .btn { flex: 1 1 100%; }
+  .progress li { font-size: .58rem; letter-spacing: .06em; }
+}
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .btn:hover, .card:hover { transform: none; }
+  .pill i, .keycard.loading .keyval::after { animation: none; }
+}
 </style>
-<style>:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)} body{margin:0} img{max-width:100%} [hidden]{display:none!important}</style>
 </head>
 <body>
 
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <symbol id="i-check" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" d="M5 12.5l4.2 4.2L19 7"/></symbol>
+    <symbol id="i-dl" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" d="M12 4v11m0 0l-4.5-4.5M12 15l4.5-4.5M5 19.5h14"/></symbol>
+    <symbol id="i-copy" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2.2" stroke-linejoin="round"><rect x="8" y="8" width="12" height="12" rx="2.5"/><path d="M16 8V6.5A2.5 2.5 0 0 0 13.5 4h-7A2.5 2.5 0 0 0 4 6.5v7A2.5 2.5 0 0 0 6.5 16H8"/></g></symbol>
+  </defs>
+</svg>
 
-<div class="wrap">
-  <header class="bar">
-    <a class="brand" href="#top">GLCRY<span>&nbsp;METER</span></a>
+<header class="top" id="top-bar">
+  <div class="wrap bar">
+    <a class="brand" href="#top" aria-label="GLCRY METER home">
+      <svg viewBox="0 0 32 32" aria-hidden="true"><path d="M5 22a13 13 0 0 1 22 0" fill="none" stroke="#2d3b50" stroke-width="5.5" stroke-linecap="round"/><path d="M19.5 10.8a13 13 0 0 1 5.6 6.4" fill="none" stroke="#c7b47a" stroke-width="5.5"/><path d="M22.4 8.4l-3.2 7.3" stroke="#f2b93b" stroke-width="2.6" stroke-linecap="round"/></svg>
+      GLCRY<span>&nbsp;METER</span>
+    </a>
     <nav class="nav" aria-label="Sections">
-      <a href="#what">What you get</a>
+      <a href="#what">Features</a>
       <a href="#how">How it works</a>
       <a href="#price">Price</a>
       <a href="#faq">FAQ</a>
       <a href="https://discord.gg/glcrify" target="_blank" rel="noopener">Discord</a>
-      <a href="https://www.tiktok.com/@glcrify" target="_blank" rel="noopener">TikTok</a>
+      <a class="btn sm apply" href="https://buy.stripe.com/8x26oH9Uednhd593v34ZG01" target="_blank" rel="noopener">Join the beta</a>
     </nav>
-  </header>
-</div>
+  </div>
+</header>
 
 <!-- ============ MAIN VIEW ============ -->
 <main id="view-main" class="view">
-  <div class="wrap">
-    <div class="hero" id="top">
+  <div class="hero-bg" id="top">
+    <svg class="court" viewBox="0 0 1200 640" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+      <g fill="none" stroke="#1a2432" stroke-width="2">
+        <path d="M600 -40 V 680"/><circle cx="600" cy="320" r="110"/><circle cx="600" cy="320" r="36"/>
+        <path d="M1240 70 H 1010 V 570 H 1240"/><path d="M1240 -10 A 380 380 0 0 0 1240 650" />
+        <path d="M-40 70 H 190 V 570 H -40"/><path d="M-40 -10 A 380 380 0 0 1 -40 650"/>
+      </g>
+    </svg>
+    <div class="wrap hero">
       <div>
-        <p class="eyebrow">By Glcrify &middot; closed beta &middot; limited seats</p>
+        <span class="pill"><i></i>Closed beta &middot; limited seats</span>
         <h1>Release on the <em>green.</em></h1>
-        <p class="lede">GLCRY METER reads the shot meter 240 times a second and lets go for you in the middle of the window. It's built for our community NBA 2K21 servers, and we're taking a small group of testers.</p>
+        <p class="lede">GLCRY METER watches the shot meter up to 240 times a second and releases your shot right in the middle of the window. Built for our community NBA 2K21 servers.</p>
         <div class="cta-row">
-          <a class="btn apply" href="https://buy.stripe.com/8x26oH9Uednhd593v34ZG01" target="_blank" rel="noopener">Apply for the beta</a>
+          <a class="btn apply" href="https://buy.stripe.com/8x26oH9Uednhd593v34ZG01" target="_blank" rel="noopener">Join the beta &middot; $36/mo</a>
           <a class="btn ghost" href="#how">How it works</a>
         </div>
-        <p class="small" style="margin-top:12px">US$36 a month. Cancel any time.</p>
+        <ul class="trust">
+          <li><svg><use href="#i-check"/></svg>Key straight after checkout</li>
+          <li><svg><use href="#i-check"/></svg>One-click installer</li>
+          <li><svg><use href="#i-check"/></svg>Cancel any time</li>
+        </ul>
       </div>
-      <div class="meter-stage" aria-label="Animated example of the shot meter: the line sweeps into the target zone and the release is graded Excellent">
-        <svg viewBox="0 0 420 118" role="img" aria-hidden="true">
+      <div class="stage" aria-label="Animated example: the meter line sweeps into the target zone and the release is graded Excellent">
+        <div class="stage-head"><span>Shot meter</span><b>Live read</b></div>
+        <svg class="meter" viewBox="0 0 420 118" role="img" aria-hidden="true">
           <path id="rim" fill="none" stroke="var(--meter-rim)" stroke-linecap="round" stroke-width="36" d=""/>
           <path id="body" fill="none" stroke="var(--meter-body)" stroke-linecap="round" stroke-width="26" d=""/>
           <path id="zone" fill="none" stroke="var(--khaki)" stroke-width="26" d=""/>
@@ -197,59 +343,78 @@ footer .wrap { display: flex; flex-wrap: wrap; justify-content: space-between; g
           <line id="gold" stroke="var(--gold)" stroke-width="5" stroke-linecap="round" x1="0" y1="0" x2="0" y2="0"/>
         </svg>
         <div class="verdict" id="verdict">EXCELLENT</div>
-        <div class="readout"><span id="ro-eta">ETA 0 ms</span><span id="ro-err">release error +2 ms</span><span>240 fps</span></div>
+        <div class="readout">
+          <div><span>Time to target</span><b id="ro-eta">0 ms</b></div>
+          <div><span>Release off by</span><b id="ro-err">+2 ms</b></div>
+          <div><span>Reads / sec</span><b>240</b></div>
+        </div>
+        <div class="shots" id="shots" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+        <p class="demo-note">Demo animation</p>
       </div>
     </div>
   </div>
 
   <div class="strip">
     <div class="wrap">
-      <div class="stat"><b class="mono">240</b><span>meter reads per second</span></div>
-      <div class="stat"><b class="mono">&plusmn;3 ms</b><span>release spread in our testing</span></div>
-      <div class="stat"><b>Auto</b><span>tunes itself from 2K's TIMING result</span></div>
-      <div class="stat"><b>2 ways</b><span>to connect: virtual controller or Titan Two</span></div>
+      <div class="stat"><b class="mono">240</b><span>meter reads per second at 1080p</span></div>
+      <div class="stat"><b class="mono">1<small>ms</small></b><span>timing steps you set yourself</span></div>
+      <div class="stat"><b>2</b><span>ways to connect: PC controller or Titan Two</span></div>
+      <div class="stat"><b>Auto</b><span>updates every time you open it</span></div>
     </div>
   </div>
 
   <section id="what">
     <div class="wrap">
       <div class="sec-head col">
-        <p class="eyebrow">What testers get</p>
+        <p class="eyebrow">What you get</p>
         <h2>Everything set up for you</h2>
+        <p class="muted">No config files and no guesswork. Install it, paste your key and get on the court.</p>
       </div>
-      <div class="grid2">
-        <div class="feat"><h3>One-click installer</h3><p>Download one file, double-click it, and everything GLCRY METER needs is installed for you, drivers included. No setup guides.</p></div>
-        <div class="feat"><h3>Times the middle of the window</h3><p>It aims at the centre of the meter's target zone, where 2K grades a release EXCELLENT. You set your timing once and it stays exactly where you put it.</p></div>
-        <div class="feat"><h3>Plays with your controller</h3><p>Plug your controller into your PC, or use your Titan Two. GLCRY METER finds it and only takes over the moment of release.</p></div>
-        <div class="feat"><h3>Updates arrive by themselves</h3><p>Every fix and improvement installs the next time you open GLCRY METER. Testers get new builds first.</p></div>
-        <div class="feat"><h3>Your own key</h3><p>Your access is locked to your PC, so a leaked copy is useless to anyone else and your seat stays yours.</p></div>
-        <div class="feat"><h3>A direct line to us</h3><p>Testers get a private Discord channel to report bugs and shape what we build next.</p></div>
+      <div class="cards">
+        <div class="card"><div class="ico"><svg viewBox="0 0 24 24"><use href="#i-dl"/></svg></div><h3>One-click installer</h3><p>Download one file and double-click it. Everything GLCRY METER needs, drivers included, is installed for you.</p></div>
+        <div class="card"><div class="ico"><svg viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="12" cy="12" r="8"/><circle cx="12" cy="12" r="3.2"/><path d="M12 1.5v4M12 18.5v4M1.5 12h4M18.5 12h4" stroke-linecap="round"/></g></svg></div><h3>Aims at the middle</h3><p>It targets the centre of the meter's green window and locks on to the line through busy courts and other players' shots.</p></div>
+        <div class="card"><div class="ico"><svg viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M7 7h10a5 5 0 0 1 4.8 6.3l-1 3.7a2.3 2.3 0 0 1-4 .8L14.6 15H9.4l-2.2 2.8a2.3 2.3 0 0 1-4-.8l-1-3.7A5 5 0 0 1 7 7z" stroke-linejoin="round"/><path d="M7 10v3M5.5 11.5h3"/></g></svg></div><h3>Your controller</h3><p>Plug your controller into your PC, or use a Titan Two. GLCRY METER only takes over at the moment of release.</p></div>
+        <div class="card"><div class="ico"><svg viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M4 12a8 8 0 0 1 13.7-5.6L20 9M20 4v5h-5"/><path d="M20 12a8 8 0 0 1-13.7 5.6L4 15M4 20v-5h5"/></g></svg></div><h3>Automatic updates</h3><p>Every fix installs itself the next time you open GLCRY METER. Testers get new builds first.</p></div>
+        <div class="card"><div class="ico"><svg viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="8" cy="15" r="4"/><path d="M11 12l9-9M17 6l3 3M14.5 8.5l2.5 2.5"/></g></svg></div><h3>Your own key</h3><p>Your key locks to your PC the first time you use it, so a leaked copy is useless and your seat stays yours.</p></div>
+        <div class="card"><div class="ico"><svg viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="2.2" stroke-linejoin="round" d="M4 5.5A1.5 1.5 0 0 1 5.5 4h13A1.5 1.5 0 0 1 20 5.5v9a1.5 1.5 0 0 1-1.5 1.5H10l-4.5 4v-4h0A1.5 1.5 0 0 1 4 14.5z"/></svg></div><h3>A direct line to us</h3><p>A private testers channel on Discord to report bugs and shape what gets built next.</p></div>
       </div>
     </div>
   </section>
 
-  <section id="how" style="background:var(--bg-2)">
+  <section id="how" class="alt">
     <div class="wrap">
       <div class="sec-head col">
         <p class="eyebrow">How it works</p>
-        <h2>From payment to playing</h2>
+        <h2>From checkout to the court</h2>
+        <p class="muted">About ten minutes, start to finish.</p>
       </div>
-      <ol class="steps col">
-        <li><p><strong>Apply and subscribe</strong>Checkout takes your payment and your Discord name. Seats are limited so we can support everyone properly.</p></li>
-        <li><p><strong>Get your key instantly</strong>Straight after checkout you get your key, the download and a step-by-step setup guide. No waiting on anyone.</p></li>
-        <li><p><strong>Install and paste your key</strong>Run the installer, paste your key, and it locks to your PC.</p></li>
-        <li><p><strong>Play</strong>Open OBS, start the Virtual Camera, open GLCRY METER and get on the court.</p></li>
+      <ol class="flow">
+        <li><strong>Subscribe</strong><p>Pay securely through Stripe and tell us your Discord name.</p></li>
+        <li><strong>Get your key</strong><p>Your key, the download and a setup guide appear straight after checkout.</p></li>
+        <li><strong>Install</strong><p>Run the installer, paste your key and it locks to your PC.</p></li>
+        <li><strong>Play</strong><p>Start OBS Virtual Camera, open GLCRY METER and shoot.</p></li>
       </ol>
-      <div class="col" style="margin-top:40px">
-        <h3 style="margin-bottom:14px">You'll need</h3>
-        <ul class="req">
-          <li>A Windows 10 or 11 PC</li>
-          <li>NBA 2K21 on PC, on our community servers</li>
-          <li>OBS Studio (free) with Virtual Camera</li>
-          <li>A controller, or a Titan Two</li>
-          <li>Ideally a 120-240 fps capture</li>
-          <li>Discord, for support and updates</li>
-        </ul>
+      <div class="needs">
+        <div class="box">
+          <h3>You'll need</h3>
+          <ul class="check">
+            <li><svg><use href="#i-check"/></svg>A Windows 10 or 11 PC</li>
+            <li><svg><use href="#i-check"/></svg>NBA 2K21 on PC, on our community servers</li>
+            <li><svg><use href="#i-check"/></svg>OBS Studio (free)</li>
+            <li><svg><use href="#i-check"/></svg>A controller, or a Titan Two</li>
+            <li><svg><use href="#i-check"/></svg>A PC that can capture at 120 fps or more</li>
+            <li><svg><use href="#i-check"/></svg>Discord, for support and updates</li>
+          </ul>
+        </div>
+        <div class="box">
+          <h3>Best capture settings</h3>
+          <dl class="spec">
+            <div><dt>Resolution</dt><dd>1920 &times; 1080</dd></div>
+            <div><dt>Frame rate</dt><dd>240 fps</dd></div>
+            <div><dt>OBS output</dt><dd>Virtual Camera</dd></div>
+            <div><dt>Minimum</dt><dd>120 fps</dd></div>
+          </dl>
+        </div>
       </div>
     </div>
   </section>
@@ -261,79 +426,111 @@ footer .wrap { display: flex; flex-wrap: wrap; justify-content: space-between; g
         <h2>One plan. Cancel any time.</h2>
       </div>
       <div class="ticket">
-        <div>
+        <div class="main">
           <div class="price mono">$36<small>USD / month</small></div>
           <ul>
-            <li>GLCRY METER for one PC, with every update</li>
-            <li>Virtual controller and Titan Two support</li>
-            <li>Private testers channel on Discord</li>
-            <li>Billed monthly by Stripe. Cancel from your receipt email.</li>
+            <li><svg><use href="#i-check"/></svg>GLCRY METER for one PC, with every update</li>
+            <li><svg><use href="#i-check"/></svg>PC controller and Titan Two support</li>
+            <li><svg><use href="#i-check"/></svg>Private testers channel on Discord</li>
+            <li><svg><use href="#i-check"/></svg>Billed monthly by Stripe. Cancel from your receipt email.</li>
           </ul>
         </div>
         <div class="side">
-          <a class="btn apply" id="apply-main" href="https://buy.stripe.com/8x26oH9Uednhd593v34ZG01" target="_blank" rel="noopener">Apply now</a>
+          <span class="seat">Admit one tester</span>
+          <a class="btn apply" id="apply-main" href="https://buy.stripe.com/8x26oH9Uednhd593v34ZG01" target="_blank" rel="noopener">Join the beta</a>
           <span class="small">Secure checkout by Stripe</span>
         </div>
       </div>
       <p class="notice" id="closed-note" hidden>Applications open shortly. Join <a href="https://discord.gg/glcrify" target="_blank" rel="noopener">discord.gg/glcrify</a> to hear first.</p>
-      <p class="notice">The fee keeps the waiting list to people who'll actually test. If we can't get GLCRY METER working on your PC, we'll refund your first month.</p>
+      <p class="notice">The fee keeps the beta to people who'll actually test. If we can't get GLCRY METER working on your PC, we'll refund your first month.</p>
     </div>
   </section>
 
   <section id="faq" style="padding-top:0">
-    <div class="wrap col">
+    <div class="wrap"><div class="col">
       <div class="sec-head">
         <p class="eyebrow">Questions</p>
         <h2>FAQ</h2>
       </div>
-      <details><summary>Will every shot be EXCELLENT?</summary><p>No tool can promise that. The game reads your controller once per frame and online play adds delay. GLCRY METER releases within a few milliseconds of the middle of the window, so once your timing is set, most of your shots land in it.</p></details>
-      <details><summary>Which games and modes does it work with?</summary><p>NBA 2K21 on PC, on our community servers. It handles offline modes and online modes like Ante-Up. Online play needs more lead time because of server delay; adjust it in Shot settings, or switch on automatic timing and it adjusts after each shot.</p></details>
+      <details><summary>Will every shot be green?</summary><p>No tool can honestly promise that. The game reads your controller once per frame and online play adds delay. GLCRY METER releases within a few milliseconds of where you set it, so once your timing is dialled in, it's as consistent as your connection allows.</p></details>
+      <details><summary>How do I set my timing?</summary><p>Open <em>Shot settings</em> in GLCRY METER. If your shots come out early, press <kbd>-</kbd>; if they're late, press <kbd>+</kbd>. The change takes effect on your next shot and stays where you put it.</p></details>
+      <details><summary>Which modes does it work with?</summary><p>NBA 2K21 on PC, on our community servers, offline and online. Online play usually needs a little more timing because of server delay.</p></details>
+      <details><summary>Why does Windows ask for permission when I open it?</summary><p>GLCRY METER hides your real controller from the game so 2K only sees one controller. Windows asks for permission to do that each time you open it. Press <kbd>Yes</kbd>.</p></details>
       <details><summary>How do I cancel?</summary><p>Use the "Manage subscription" link in your Stripe receipt email. You keep access until the end of the month you've paid for.</p></details>
       <details><summary>Can I use it on two PCs?</summary><p>Each seat is one PC. If you change PCs, message us on Discord and we'll move your key.</p></details>
       <details><summary>What if it doesn't work on my PC?</summary><p>Message us on Discord first. Most problems are a quick settings fix. If we can't get it running, we refund your first month.</p></details>
       <details><summary>Where can I see it in action?</summary><p>Clips go up on TikTok at <a href="https://www.tiktok.com/@glcrify" target="_blank" rel="noopener">@glcrify</a>, and the community is on <a href="https://discord.gg/glcrify" target="_blank" rel="noopener">discord.gg/glcrify</a>.</p></details>
       <details><summary>What do you do with my details?</summary><p>See <a href="#terms">Terms &amp; privacy</a>. In short: your Discord name and email let us support you, and your PC's ID locks your key to it. We never sell your data.</p></details>
-    </div>
+    </div></div>
   </section>
+
+  <div class="final">
+    <div class="wrap">
+      <p class="eyebrow">Seats are limited</p>
+      <h2 style="margin-top:14px">Get on the <em>green.</em></h2>
+      <div class="cta-row">
+        <a class="btn apply" href="https://buy.stripe.com/8x26oH9Uednhd593v34ZG01" target="_blank" rel="noopener">Join the beta &middot; $36/mo</a>
+        <a class="btn ghost" href="https://discord.gg/glcrify" target="_blank" rel="noopener">Ask us on Discord</a>
+      </div>
+    </div>
+  </div>
 </main>
 
 <!-- ============ THANK-YOU VIEW (Stripe sends people here after paying) ============ -->
 <main id="view-thanks" class="view thanks" hidden>
   <div class="wrap col">
-    <p class="eyebrow">Payment received</p>
-    <h2 style="font-size:clamp(2.6rem,7vw,4.4rem)">You're in.</h2>
-    <p style="margin-top:14px;color:var(--muted)">Welcome to the GLCRY METER beta. Your key and everything you need are below. Setup takes about 10 minutes.</p>
+    <div class="hello">
+      <div class="tick"><svg><use href="#i-check"/></svg></div>
+      <div>
+        <p class="eyebrow">Payment received</p>
+        <h2 style="font-size:clamp(2.6rem,7vw,4.2rem);margin-top:8px">You're in.</h2>
+      </div>
+    </div>
+    <p style="margin-top:16px;color:var(--muted)">Welcome to the GLCRY METER beta. Your key and everything you need are below. Setup takes about 10 minutes.</p>
+    <ol class="progress" aria-label="Your progress">
+      <li class="done">Paid</li><li class="now" id="pg-key">Copy key</li><li>Install</li><li>Play</li>
+    </ol>
 
     <div class="keycard loading" id="keycard" aria-live="polite">
       <p class="eyebrow" id="key-label">Your key</p>
-      <div class="keyval" id="key-val">Getting your key...</div>
+      <div class="keyval" id="key-val">Getting your key</div>
       <div class="keyrow">
-        <button class="btn" id="key-copy" type="button" hidden>Copy key</button>
-        <a class="btn ghost" id="key-dl" href="GLCRY-METER-Setup.cmd" download="GLCRY METER Setup.cmd">Download GLCRY METER</a>
+        <button class="btn" id="key-copy" type="button" hidden><svg><use href="#i-copy"/></svg>Copy key</button>
+        <a class="btn green" id="key-dl" href="GLCRY-METER-Setup.cmd" download="GLCRY METER Setup.cmd"><svg><use href="#i-dl"/></svg>Download GLCRY METER</a>
       </div>
       <span class="small" id="key-note">Keep this page open until you've copied your key. Opening this page again from the same link shows the same key.</span>
     </div>
 
     <div class="guide">
       <h3>Setup guide</h3>
-      <ol class="steps" style="margin-top:12px">
-        <li><p><strong>Download and run the installer</strong>Press <em>Download GLCRY METER</em> above. If your browser asks, choose <kbd>Keep</kbd>. Double-click <em>GLCRY METER Setup</em> and press <kbd>Yes</kbd>.
-          <span class="shot">If Windows shows "Windows protected your PC", click <kbd>More info</kbd> then <kbd>Run anyway</kbd>. That's normal for new apps.</span></p></li>
-        <li><p><strong>Let it finish</strong>A window installs everything for you (about 5 minutes). Six steps turn green, then GLCRY METER opens by itself.</p></li>
-        <li><p><strong>Paste your key</strong>Copy your key from this page and paste it into the box in GLCRY METER. You'll see "Activating this PC...", then the main screen. Your key now belongs to this PC.</p></li>
-        <li><p><strong>Start OBS Virtual Camera</strong>Open <a href="https://obsproject.com" target="_blank" rel="noopener">OBS Studio</a> (free) with your game capture, and press <kbd>Start Virtual Camera</kbd>. GLCRY METER's <em>VIDEO</em> card turns green.</p></li>
-        <li><p><strong>Choose your controller</strong>GLCRY METER asks how your controller is connected. Pick it, and press <kbd>Yes</kbd> when Windows asks. Your controller disconnects for a second; that's GLCRY METER taking over.</p></li>
-        <li><p><strong>Set your timing and play</strong>Take a few shots. If they're consistently early or late, open <em>Shot settings</em> and use <kbd>-</kbd> / <kbd>+</kbd>. Updates install themselves every time you open GLCRY METER.</p></li>
+      <ol class="gsteps">
+        <li><div class="gb"><strong>Run the installer</strong>Press <em>Download GLCRY METER</em> above. If your browser asks, choose <kbd>Keep</kbd>. Double-click <em>GLCRY METER Setup</em> and press <kbd>Yes</kbd>.
+          <span class="tip">If Windows shows "Windows protected your PC", click <kbd>More info</kbd> then <kbd>Run anyway</kbd>. That's normal for new apps.</span></div></li>
+        <li><div class="gb"><strong>Let it finish</strong>A window installs everything for you in about 5 minutes. Six steps tick off, then GLCRY METER opens by itself.
+          <span class="tip">If the installer says <b>restart your PC</b>, do that before your first game. It only happens the first time.</span></div></li>
+        <li><div class="gb"><strong>Paste your key</strong>Copy your key from this page and paste it into GLCRY METER. You'll see "Activating this PC", then the main screen. Your key now belongs to this PC.</div></li>
+        <li><div class="gb"><strong>Set up OBS</strong>Open <a href="https://obsproject.com" target="_blank" rel="noopener">OBS Studio</a> (free) and add a <em>Game Capture</em> of NBA 2K21. Then press <kbd>Start Virtual Camera</kbd>. GLCRY METER's <em>VIDEO</em> card turns green.
+          <div class="obs box" style="padding:14px 16px"><dl class="spec">
+            <div><dt>Settings &rarr; Video &rarr; Base and Output resolution</dt><dd>1920x1080</dd></div>
+            <div><dt>Settings &rarr; Video &rarr; FPS: Integer FPS value</dt><dd>240</dd></div>
+          </dl></div></div></li>
+        <li><div class="gb"><strong>Choose your controller</strong>GLCRY METER asks how your controller is connected. Pick it. From then on, Windows asks for permission each time you open GLCRY METER; press <kbd>Yes</kbd>, as that's how it hides your real controller from the game.
+          <span class="tip green">If 2K21 was already open, <b>unplug your controller and plug it back in once</b>. The <em>CONTROLLER</em> card turns green when it's ready.</span></div></li>
+        <li><div class="gb"><strong>Set your timing and play</strong>Take a few shots. If they're consistently early, open <em>Shot settings</em> and press <kbd>-</kbd>; if late, press <kbd>+</kbd>. Small steps work best. Updates install themselves every time you open GLCRY METER.</div></li>
       </ol>
-      <h3 style="margin-top:40px;margin-bottom:6px">If something's not right</h3>
-      <details><summary>The game reacts twice to one button press</summary><p>Close GLCRY METER, unplug your controller, plug it back in, and open GLCRY METER again. If it still happens, restart your PC once.</p></details>
-      <details><summary>The VIDEO card stays amber</summary><p>Make sure OBS is open and Virtual Camera is started. In GLCRY METER's Advanced view, pick <em>OBS Virtual Camera</em> as the capture device.</p></details>
-      <details><summary>My controller doesn't move in the game</summary><p>Close GLCRY METER normally (with the X) to give the game your controller back, then open it again and press <kbd>Yes</kbd> on the Windows prompt.</p></details>
-      <details><summary>"This key is already being used on another PC"</summary><p>Each key works on one PC. Got a new PC? Message us on Discord with your receipt and we'll move it.</p></details>
-      <details><summary>I lost my key</summary><p>Open this page again from the same link, or message us on Discord with your receipt email.</p></details>
+
+      <div class="help">
+        <h3>If something's not right</h3>
+        <details><summary>The game sees two controllers, or reacts twice to one press</summary><p>Close GLCRY METER, unplug your controller, plug it back in and open GLCRY METER again (press <kbd>Yes</kbd> on the Windows prompt). If it still happens, restart your PC once.</p></details>
+        <details><summary>My controller doesn't move in the game</summary><p>Close GLCRY METER with the X so it gives the game your controller back. If you have the HidHide window open, close it too. Then open GLCRY METER again and press <kbd>Yes</kbd>. Still stuck? Unplug and replug your controller.</p></details>
+        <details><summary>The VIDEO card stays amber</summary><p>Make sure OBS is open and <kbd>Start Virtual Camera</kbd> is pressed. In GLCRY METER's <em>Advanced view</em>, pick <em>OBS Virtual Camera</em> as the capture device.</p></details>
+        <details><summary>The VIDEO card says it's below 100 fps</summary><p>Set OBS to 240 fps (Settings &rarr; Video &rarr; FPS &rarr; Integer FPS value) and make sure the game itself runs above that or close to it. Close other recording software while you play.</p></details>
+        <details><summary>"This key is already being used on another PC"</summary><p>Each key works on one PC. Got a new PC? Message us on Discord with your receipt and we'll move it.</p></details>
+        <details><summary>I lost my key</summary><p>Open this page again from the same link, or message us on Discord with your receipt email.</p></details>
+      </div>
     </div>
 
-    <p style="margin-top:36px">Questions? Join us on <a id="thanks-discord" href="https://discord.gg/glcrify" target="_blank" rel="noopener">discord.gg/glcrify</a>.</p>
+    <p style="margin-top:40px" class="muted">Questions? Join us on <a id="thanks-discord" href="https://discord.gg/glcrify" target="_blank" rel="noopener" style="color:var(--ink)">discord.gg/glcrify</a>.</p>
     <p style="margin-top:18px"><a class="btn ghost" href="#top">Back to the site</a></p>
   </div>
 </main>
@@ -341,9 +538,9 @@ footer .wrap { display: flex; flex-wrap: wrap; justify-content: space-between; g
 
 <!-- ============ TERMS VIEW ============ -->
 <main id="view-terms" class="view" hidden>
-  <div class="wrap col legal" style="padding-block:50px 70px">
-    <p class="eyebrow">Last updated <span class="mono">2 November 2026</span></p>
-    <h2>Terms &amp; privacy</h2>
+  <div class="wrap col legal" style="padding-block:56px 80px">
+    <p class="eyebrow">Last updated <span class="mono">3 November 2026</span></p>
+    <h2 style="margin-top:12px">Terms &amp; privacy</h2>
 
     <h3>The service</h3>
     <p>GLCRY METER is beta software for our community-run NBA 2K21 servers. A beta tester subscription gives you a licence key for GLCRY METER on one PC, updates, and support while your subscription is active. GLCRY METER isn't made by or connected with 2K or the NBA.</p>
@@ -377,7 +574,7 @@ footer .wrap { display: flex; flex-wrap: wrap; justify-content: space-between; g
     </ul>
 
     <h3>Contact</h3>
-    <p>Discord: <span class="mono" id="contact-discord">see your receipt email</span><br>Email: <span class="mono" id="contact-email">set in site settings</span></p>
+    <p>Discord: <span class="mono" id="contact-discord">see your receipt email</span><br>Email: <span class="mono" id="contact-email">via Discord</span></p>
     <p style="margin-top:30px"><a class="btn ghost" href="#top">Back to the site</a></p>
   </div>
 </main>
@@ -385,7 +582,7 @@ footer .wrap { display: flex; flex-wrap: wrap; justify-content: space-between; g
 <footer>
   <div class="wrap">
     <span>&copy; <span class="mono">2026</span> GLCRY METER by Glcrify. Not affiliated with 2K or the NBA.</span>
-    <span><a href="https://discord.gg/glcrify" target="_blank" rel="noopener">discord.gg/glcrify</a> &middot; <a href="https://www.tiktok.com/@glcrify" target="_blank" rel="noopener">TikTok @glcrify</a> &middot; <a href="#terms">Terms &amp; privacy</a></span>
+    <nav aria-label="Footer"><a href="https://discord.gg/glcrify" target="_blank" rel="noopener">Discord</a><a href="https://www.tiktok.com/@glcrify" target="_blank" rel="noopener">TikTok</a><a href="#terms">Terms &amp; privacy</a></nav>
   </div>
 </footer>
 
@@ -400,13 +597,10 @@ var SETTINGS = {
 /* ================================================================= */
 
 (function () {
-  // Apply buttons -> Stripe, or a clear "opening soon" state
-  var applies = document.querySelectorAll(".apply");
-  applies.forEach(function (a) {
+  // Join buttons -> Stripe, or a clear "opening soon" state
+  document.querySelectorAll(".apply").forEach(function (a) {
     if (SETTINGS.stripeLink) {
-      a.href = SETTINGS.stripeLink;
-      a.target = "_blank";
-      a.rel = "noopener";
+      a.href = SETTINGS.stripeLink; a.target = "_blank"; a.rel = "noopener";
     } else if (a.id === "apply-main") {
       a.setAttribute("aria-disabled", "true");
       a.textContent = "Opening soon";
@@ -417,9 +611,14 @@ var SETTINGS = {
   if (SETTINGS.discordInvite) {
     var td = document.getElementById("thanks-discord");
     if (td) td.href = SETTINGS.discordInvite;
-    document.getElementById("contact-discord").textContent = SETTINGS.discordInvite;
+    document.getElementById("contact-discord").textContent = SETTINGS.discordInvite.replace(/^https?:\/\//, "");
   }
   if (SETTINGS.contactEmail) document.getElementById("contact-email").textContent = SETTINGS.contactEmail;
+
+  // header border once scrolled
+  var bar = document.getElementById("top-bar");
+  function onScroll() { bar.classList.toggle("scrolled", window.scrollY > 8); }
+  window.addEventListener("scroll", onScroll, { passive: true }); onScroll();
 
   // Views: #thanks and #terms, everything else is the main page
   function route() {
@@ -458,12 +657,13 @@ var SETTINGS = {
           if (d.discord) note.textContent = "Linked to Discord " + d.discord + ". Opening this page again from the same link shows the same key.";
           return;
         }
-        if (d.reason === "unpaid" && tries < 6) { kv.textContent = "Waiting for your payment to finish..."; setTimeout(function () { claim(tries + 1); }, 4000); return; }
+        if (d.reason === "unpaid" && tries < 8) { kv.textContent = "Waiting for your payment to finish"; setTimeout(function () { claim(tries + 1); }, 4000); return; }
         var msgs = {
           unpaid: ["Payment still processing", "Your payment hasn't finished yet. Refresh this page in a minute."],
           empty: ["Restocking keys", "We're adding more keys right now. Your key will be sent to you on Discord within a few hours."],
           cancelled: ["Subscription not active", "This subscription has been cancelled."],
           notfound: ["Key not found", "We couldn't find this checkout. Open this page from the link Stripe sent you to."],
+          bad: ["Key not found", "This link looks incomplete. Open this page from the link Stripe sent you to."],
           setup: ["Almost there", "We'll send your key on Discord shortly."]
         };
         var m = msgs[d.reason] || ["Couldn't get your key", "Something went wrong on our side. Refresh this page, or message us on Discord."];
@@ -475,18 +675,23 @@ var SETTINGS = {
       });
   }
   if (location.hash === "#thanks" || sid) claim(0);
+  function step(n) {
+    var li = document.querySelectorAll(".progress li");
+    li.forEach(function (x, i) { x.className = i < n ? "done" : (i === n ? "now" : ""); });
+  }
   kc.addEventListener("click", function () {
     var t = kv.textContent, toast = document.getElementById("toast");
-    function done() { toast.classList.add("show"); setTimeout(function () { toast.classList.remove("show"); }, 1600); }
+    function done() { toast.classList.add("show"); setTimeout(function () { toast.classList.remove("show"); }, 1600); step(2); }
     if (navigator.clipboard) navigator.clipboard.writeText(t).then(done, function () { selectKey(); });
     else selectKey();
     function selectKey() { var r = document.createRange(); r.selectNodeContents(kv); var s = getSelection(); s.removeAllRanges(); s.addRange(r); }
   });
+  document.getElementById("key-dl").addEventListener("click", function () { step(kc.hidden ? 1 : 3); });
 
   // ---------- the meter ----------
   var cx = 210, cy = 560, R = 520;          // a shallow upward arch
   var a0 = -0.36, a1 = 0.36;                // arc span (radians from vertical)
-  function pt(t, r) {                       // t: 0..1 along the bar
+  function pt(t, r) {
     var a = a0 + (a1 - a0) * t;
     return [cx + (r || R) * Math.sin(a), cy - (r || R) * Math.cos(a)];
   }
@@ -504,28 +709,35 @@ var SETTINGS = {
   }
   tick("target", ZC, 24);
   var verdict = document.getElementById("verdict"), eta = document.getElementById("ro-eta"), err = document.getElementById("ro-err");
+  var pips = document.querySelectorAll("#shots i"), shot = 0;
   var FILL_MS = 900;                        // time for the line to cross the bar
   function show(t, done) {
     tick("gold", t, 16);
-    var ms = Math.round((ZC - t) * FILL_MS);
-    eta.textContent = "ETA " + Math.max(0, ms) + " ms";
-    verdict.style.visibility = done ? "visible" : "hidden";
+    eta.textContent = Math.max(0, Math.round((ZC - t) * FILL_MS)) + " ms";
+    verdict.style.opacity = done ? 1 : 0;
+  }
+  function graded(stop) {
+    var e = Math.round((stop - ZC) * FILL_MS);
+    err.textContent = (e >= 0 ? "+" : "") + e + " ms";
+    pips[shot % pips.length].className = "g";
+    shot++;
+    if (shot % pips.length === 0) setTimeout(function () { pips.forEach(function (p) { p.className = ""; }); }, 1200);
   }
   var reduce = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-  if (reduce) { show(ZC + 0.002, true); return; }
-  var start = null, stopAt = ZC + 0.002, hold = 1400;
+  if (reduce) { show(ZC + 0.002, true); pips.forEach(function (p) { p.className = "g"; }); return; }
+  var start = null, stopAt = ZC + 0.002, hold = 1400, scored = false;
   function frame(ts) {
     if (start === null) start = ts;
     var el = ts - start, t = el / FILL_MS;
     if (t < stopAt) { show(t, false); }
     else {
       show(stopAt, true);
-      err.textContent = "release error +" + Math.round((stopAt - ZC) * FILL_MS) + " ms";
-      if (el > stopAt * FILL_MS + hold) { start = ts; stopAt = ZC + (Math.random() * 0.012 - 0.004); }
+      if (!scored) { graded(stopAt); scored = true; }
+      if (el > stopAt * FILL_MS + hold) { start = ts; scored = false; stopAt = ZC + (Math.random() * 0.012 - 0.005); }
     }
     requestAnimationFrame(frame);
   }
-  show(stopAt, true);                        // complete at rest before animating
+  show(stopAt, true);
   requestAnimationFrame(frame);
 })();
 </script>
