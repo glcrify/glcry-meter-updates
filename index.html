@@ -431,7 +431,7 @@ kbd { font: 700 .82em var(--mono); background: var(--bg); border: 1px solid var(
         <li><strong>Subscribe</strong><p>Pay securely through Stripe and tell us your Discord name.</p></li>
         <li><strong>Get your key</strong><p>Your key, the download and a setup guide appear straight after checkout.</p></li>
         <li><strong>Install</strong><p>Run the installer, paste your key and it locks to your PC.</p></li>
-        <li><strong>Play</strong><p>Start OBS Virtual Camera, open GLCRY METER and shoot.</p></li>
+        <li><strong>Play</strong><p>Open GLCRY METER (it starts OBS for you) and shoot.</p></li>
       </ol>
       <div class="needs">
         <div class="box">
@@ -439,7 +439,7 @@ kbd { font: 700 .82em var(--mono); background: var(--bg); border: 1px solid var(
           <ul class="check">
             <li><svg><use href="#i-check"/></svg>A Windows 10 or 11 PC</li>
             <li><svg><use href="#i-check"/></svg>NBA 2K21 on PC, on our community servers</li>
-            <li><svg><use href="#i-check"/></svg>OBS Studio (free)</li>
+            <li><svg><use href="#i-check"/></svg>Nothing else: OBS is installed for you</li>
             <li><svg><use href="#i-check"/></svg>A controller, or a Titan Two</li>
             <li><svg><use href="#i-check"/></svg>A PC that can capture at 120 fps or more</li>
             <li><svg><use href="#i-check"/></svg>Discord, for support and updates</li>
@@ -450,7 +450,7 @@ kbd { font: 700 .82em var(--mono); background: var(--bg); border: 1px solid var(
           <dl class="spec">
             <div><dt>Resolution</dt><dd>1920 &times; 1080</dd></div>
             <div><dt>Frame rate</dt><dd>240 fps</dd></div>
-            <div><dt>OBS output</dt><dd>Virtual Camera</dd></div>
+            <div><dt>OBS</dt><dd>Set up for you</dd></div>
             <div><dt>Minimum</dt><dd>120 fps</dd></div>
           </dl>
         </div>
@@ -545,14 +545,11 @@ kbd { font: 700 .82em var(--mono); background: var(--bg); border: 1px solid var(
       <ol class="gsteps">
         <li><div class="gb"><strong>Run the installer</strong>Press <em>Download GLCRY METER</em> above. If your browser asks, choose <kbd>Keep</kbd>. Double-click <em>GLCRY METER Setup</em> and press <kbd>Yes</kbd>.
           <span class="tip">If Windows shows "Windows protected your PC", click <kbd>More info</kbd> then <kbd>Run anyway</kbd>. That's normal for new apps.</span></div></li>
-        <li><div class="gb"><strong>Let it finish</strong>A window installs everything for you in about 5 minutes. Six steps tick off, then GLCRY METER opens by itself.
+        <li><div class="gb"><strong>Let it finish</strong>A window installs everything for you in about 5 minutes, OBS Studio included. Seven steps tick off, then GLCRY METER opens by itself.
           <span class="tip">If the installer says <b>restart your PC</b>, do that before your first game. It only happens the first time.</span></div></li>
         <li><div class="gb"><strong>Paste your key</strong>Copy your key from this page and paste it into GLCRY METER. You'll see "Activating this PC", then the main screen. Your key now belongs to this PC.</div></li>
-        <li><div class="gb"><strong>Set up OBS</strong>Open <a href="https://obsproject.com" target="_blank" rel="noopener">OBS Studio</a> (free) and add a <em>Game Capture</em> of NBA 2K21. Then press <kbd>Start Virtual Camera</kbd>. GLCRY METER's <em>VIDEO</em> card turns green.
-          <div class="obs box" style="padding:14px 16px"><dl class="spec">
-            <div><dt>Settings &rarr; Video &rarr; Base and Output resolution</dt><dd>1920x1080</dd></div>
-            <div><dt>Settings &rarr; Video &rarr; FPS: Integer FPS value</dt><dd>240</dd></div>
-          </dl></div></div></li>
+        <li><div class="gb"><strong>Start NBA 2K21</strong>OBS is installed and set up for you (1920x1080, 240 fps, a capture of NBA 2K21), and GLCRY METER opens it with the Virtual Camera already running. Just start the game; GLCRY METER's <em>VIDEO</em> card turns green.
+          <span class="tip">Already used OBS before? Your own scenes are left alone, so add a <em>Game Capture</em> of NBA 2K21, set <em>Settings &rarr; Video</em> to 1920x1080 and <em>Integer FPS value</em> 240, and press <kbd>Start Virtual Camera</kbd>.</span></div></li>
         <li><div class="gb"><strong>Choose your controller</strong>GLCRY METER asks how your controller is connected. Pick it. From then on, Windows asks for permission each time you open GLCRY METER; press <kbd>Yes</kbd>, as that's how it hides your real controller from the game.
           <span class="tip green">If 2K21 was already open, <b>unplug your controller and plug it back in once</b>. The <em>CONTROLLER</em> card turns green when it's ready.</span></div></li>
         <li><div class="gb"><strong>Set your timing and play</strong>Take a few shots. If they're consistently early, open <em>Shot settings</em> and press <kbd>-</kbd>; if late, press <kbd>+</kbd>. Small steps work best. Updates install themselves every time you open GLCRY METER.</div></li>
@@ -562,7 +559,7 @@ kbd { font: 700 .82em var(--mono); background: var(--bg); border: 1px solid var(
         <h3>If something's not right</h3>
         <details><summary>The game sees two controllers, or reacts twice to one press</summary><p>Close GLCRY METER, unplug your controller, plug it back in and open GLCRY METER again (press <kbd>Yes</kbd> on the Windows prompt). If it still happens, restart your PC once.</p></details>
         <details><summary>My controller doesn't move in the game</summary><p>Close GLCRY METER with the X so it gives the game your controller back. If you have the HidHide window open, close it too. Then open GLCRY METER again and press <kbd>Yes</kbd>. Still stuck? Unplug and replug your controller.</p></details>
-        <details><summary>The VIDEO card stays amber</summary><p>Make sure OBS is open and <kbd>Start Virtual Camera</kbd> is pressed. In GLCRY METER's <em>Advanced view</em>, pick <em>OBS Virtual Camera</em> as the capture device.</p></details>
+        <details><summary>The VIDEO card stays amber</summary><p>Make sure NBA 2K21 is running. OBS sits in the system tray (bottom-right, by the clock); open it and check <kbd>Start Virtual Camera</kbd> is on and the game shows in the preview. If the preview is black, double-click <em>NBA 2K21</em> in Sources and pick the game window. In GLCRY METER's <em>Advanced view</em>, pick <em>OBS Virtual Camera</em> as the capture device.</p></details>
         <details><summary>The VIDEO card says it's below 100 fps</summary><p>Set OBS to 240 fps (Settings &rarr; Video &rarr; FPS &rarr; Integer FPS value) and make sure the game itself runs above that or close to it. Close other recording software while you play.</p></details>
         <details><summary>"This key is already being used on another PC"</summary><p>Each key works on one PC. Got a new PC? Message us on Discord with your receipt and we'll move it.</p></details>
         <details><summary>I lost my key</summary><p>Open this page again from the same link, or message us on Discord with your receipt email.</p></details>
