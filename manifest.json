@@ -1,9 +1,9 @@
 {
   "app": "GLCRYMETER",
-  "version": "1.0.15",
-  "file": "GLCRY-METER-1.0.15.zip",
-  "sha256": "76e6f5199d24642341d6d3430ebf690ac1ab86240391561795b9c8dec3a5fcf2",
-  "size": 111247,
+  "version": "1.0.16",
+  "file": "GLCRY-METER-1.0.16.zip",
+  "sha256": "0775f9e7f3c4a089dd21318de36f1d7ce03a163784cc16b5f897a929f04ac080",
+  "size": 111645,
   "notes": "",
-  "sig": "7d6f26096a20b5d575bcf9b510a8f4c42e95665b279045ed148c4d3279798cabfd378f5575cb20b25f5cb81ae64c3e43c9f4b31474d61198d5535a8bdd3b1509"
+  "sig": "ae0a9c50ac9320c94db2452e764d0778eef0dc6afa65162bc0c8a6b4c7add413aa8dda6adec418c399c4e8655632f46612302fdfb8e1d8583ceab271f9e3090a"
 }
