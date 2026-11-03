@@ -1,9 +1,9 @@
 {
-  "app": "NovaCV",
-  "version": "1.0.3",
-  "file": "GLCRY-METER-1.0.3.zip",
-  "sha256": "3151e936c7a81503c1a60c88a93ed0f755dbf88eaf61d1cc823d704602f96e51",
-  "size": 104614,
+  "app": "GLCRYMETER",
+  "version": "1.0.4",
+  "file": "GLCRY-METER-1.0.4.zip",
+  "sha256": "fc7349ea394749cf44a5cf05b87bd7ce7acc5d2a7deca5a0259c788b91bcd00c",
+  "size": 105241,
   "notes": "",
-  "sig": "b0493ee1c94840e1fa2ed63c6a6f36fc77449ddbae3f42fcc41a83bbb040aa36ade9ce0eefd6476ab2e1a9a6b3483ad106690d74998695b1091972b2d110bf03"
+  "sig": "66a6e2bbf36649a2cb0df15dd1988b711304f158a86cff9e3971f5a944f3a6d61131c39efdd84fa097cf5fa6e2c66f12b332e2db14123e14485e4536e130ec0b"
 }
